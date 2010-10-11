@@ -80,6 +80,9 @@ public class Md5Cracker extends Job {
                 break;
             }
         }
+        if(Information.isDebug()) {
+            System.out.println("Job " + this.m_encodeString + " is finished.");
+        }
     }
 
     /**

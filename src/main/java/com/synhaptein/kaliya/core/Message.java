@@ -18,7 +18,7 @@ public class Message {
 
     private Client m_client;
     private String m_command;
-    private String m_args[];
+    private String m_parameters[];
     private Target m_target;
     
     /**
@@ -54,7 +54,7 @@ public class Message {
     public Message(Client p_client, String p_command, String p_args[]) {
         this.m_client = p_client;
         this.m_command = p_command;
-        this.m_args = p_args;
+        this.m_parameters = p_args;
     }
 
     /**
@@ -89,7 +89,7 @@ public class Message {
      * @return arguments
      */
     public String[] getArgs() {
-        return this.m_args;
+        return this.m_parameters;
     }
 
     /**
@@ -117,8 +117,8 @@ public class Message {
         String result = "";
         if (this.m_command != null && this.m_command.length() > 0) {
             result += this.m_command + " ";
-            if (this.m_args != null) {
-                for (String arg : this.m_args) {
+            if (this.m_parameters != null) {
+                for (String arg : this.m_parameters) {
                     result += arg + " ";
                 }
             }
@@ -133,8 +133,12 @@ public class Message {
      */
     private void parseIncomingMessage(String p_message) {
         String command = p_message.split(" ")[0];
-        String args[] = p_message.substring(command.length(), p_message.length()).split(" ");
+        String parameters = p_message.substring(command.length());
+        if(parameters.length() > 0) {
+            parameters = parameters.substring(1);
+        }
+        String parameterLst[] = parameters.split(" ");
         this.m_command = command;
-        this.m_args = args;
+        this.m_parameters = parameterLst;
     }
 }
