@@ -1,0 +1,63 @@
+body {
+	width:90%;
+	margin: 0 auto;
+}
+
+#header {
+	text-align: center;
+	padding:5px 10px;
+}
+
+#main {
+	float:left;
+	width:70%;
+	background:#fff;
+}
+
+#right {
+	float:right;
+	width: 30%;
+	background:#fff;
+}
+table { 
+	border-collapse: collapse; 
+	border: 1px solid #0A1B2A; 
+	width: 90%;
+	background: #0B3861; 
+	font: .8em/.9em Georgia, "Times New Roman", Times, serif;
+	color: #033; 
+}
+td, th { 
+	padding: 3px 3px .75em 3px; 
+	line-height: 1.3em; 
+}
+th { 
+	background: #e3e3f4; 
+	color: #fff; 
+	font-weight: bold; 
+	text-align: left; 
+	padding-right: .5em; 
+	vertical-align: top; 
+}
+thead th { 
+	background: #0B3861; 
+}
+.odd td { 
+	background: #e3e3f4; 
+}
+.odd th { 
+	background: #e3e3f4; 
+}
+.even td { 
+	background: #fff; 
+}
+.even th { 
+	background: #fff; 
+}
+tfoot th, tfoot td { 
+	background: #0B3861; 
+	color: #fff; 
+}
+th + td { 
+	padding-left: .5em; 
+}
