@@ -40,14 +40,14 @@ public class Md5Cracker extends Job {
      * When this job is started, it start to crack the encode string with
      * the client pool
      */
-    public void run() {
+    public void runJob() throws InterruptedException {
         Message message = null;
         Client client = null;
         Message messageOut = null;
         long startTime = System.currentTimeMillis();
         this.getWorkerServer().clearCommunicationBuffer();
         this.getWorkerServer().sendAllMsg("OK!\0");
-        while (true) {
+        while (!this.isInterrupted()) {
             if (Information.isDebug()) {
                 long time = System.currentTimeMillis() - startTime;
                 if (time > 5000) {
@@ -59,11 +59,7 @@ public class Md5Cracker extends Job {
                     ++cmp;
                 }
             }
-            try {
-                message = this.getCommunicationBuffer().take();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            message = this.getCommunicationBuffer().take();
             client = message.getClient();
             messageOut = this.m_instructionEvaluator.eval(message);
             if(messageOut != null && !"".equals(messageOut.toString())) {
@@ -80,7 +76,7 @@ public class Md5Cracker extends Job {
                 break;
             }
         }
-        if(Information.isDebug()) {
+        if(!this.isInterrupted() && Information.isDebug()) {
             System.out.println("Job " + this.m_encodeString + " is finished.");
         }
     }

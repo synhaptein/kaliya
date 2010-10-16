@@ -38,12 +38,12 @@ public class Handler {
 	 *            client socket
 	 * @param p_communicationBuffer
 	 *            communication buffer
-	 * @throws java.lang.Exception
+	 * @throws java.io.IOException
 	 *             If the stream with the client fails
 	 */
 	public Handler(Server p_server, ExecutorService p_threadPool,
 			Socket p_clientSocket, BlockingQueue<Message> p_communicationBuffer)
-			throws Exception {
+			throws IOException, InterruptedException {
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(p_clientSocket.getInputStream()));
 		OutputStream out = p_clientSocket.getOutputStream();

@@ -49,7 +49,7 @@ public class Manager extends Client {
     /**
      * Receive messages from the client and put it in the communication buffer
      */
-    public void run() {
+    public void runClient() {
         try {
             String sReceived = "";
             char[] tab = new char[1];

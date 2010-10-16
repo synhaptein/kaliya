@@ -71,7 +71,15 @@ public abstract class Client implements Runnable {
      * This asbtract class extends the class Thread. When an object
      * extends this abstract class, it must implements this method.
      */
-    public abstract void run();
+    public abstract void runClient() throws InterruptedException;
+
+    public void run() {
+        try {
+            this.runClient();
+        }
+        catch (InterruptedException e) {}
+        System.out.println("Disconnecting client: " + this.getIdClient());
+    }
 
     /**
      * Return the client's ip

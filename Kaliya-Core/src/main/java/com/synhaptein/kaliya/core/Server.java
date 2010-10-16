@@ -1,5 +1,6 @@
 package com.synhaptein.kaliya.core;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -34,7 +35,7 @@ public abstract class Server extends Thread {
     /**
      * Server thread
      */
-    protected Thread m_thread;
+    protected volatile Thread m_thread;
     /**
      * The communication queue that contains the message from the clients
      */
@@ -43,6 +44,7 @@ public abstract class Server extends Thread {
      * The thread pool
      */
     protected ExecutorService m_threadPool;
+
 
     /**
      * Construct a new server on a specific port
@@ -61,7 +63,22 @@ public abstract class Server extends Thread {
     /**
      * When an object extends this class, it must implements a run method
      */
-    public abstract void run();
+    public abstract void runServer() throws InterruptedException;
+
+    public void run() {
+        try {
+            runServer();
+        }
+        catch (InterruptedException iex) {
+            try {
+                this.m_serverSocket.close();
+            }
+            catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+        System.out.println("Server is stopped.");
+    }
     
     /**
      * Return the list of the client connected to this server
@@ -108,12 +125,8 @@ public abstract class Server extends Thread {
      * @param p_client a client
      */
     public void removeClient(Client p_client) {
-        try {
-            this.m_clientList.remove(p_client.getIdClient());
-            p_client.closeConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.m_clientList.remove(p_client.getIdClient());
+        p_client.closeConnection();
     }
 
     /**
@@ -134,12 +147,14 @@ public abstract class Server extends Thread {
      * Stop the server
      */
     public void stopServer() {
+        this.m_threadPool.shutdownNow();
+        /*for(Client client : this.m_clientList.values()) {
+            this.removeClient(client);
+        } */
+        this.m_thread.interrupt();
         try {
             this.m_serverSocket.close();
         }
-        catch (Exception e) {
-            // Do nothing
-        }
-        this.stop();
+        catch (Exception e) {}
     }
 }

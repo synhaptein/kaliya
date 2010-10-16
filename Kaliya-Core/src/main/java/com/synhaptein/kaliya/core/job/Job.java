@@ -55,7 +55,7 @@ public abstract class Job extends Thread {
     private JobStatus m_status = JobStatus.WAITING;
     private int m_jobId;
     private BlockingQueue<Message> m_communicationBuffer;
-    private Thread m_thread;
+    private volatile Thread m_thread;
     private Map<String, Client> m_clientList;
     private Server m_workerServer;
     
@@ -127,18 +127,22 @@ public abstract class Job extends Thread {
      */
     public abstract String toString();
     
-    public void waitJobEnding() {
-    	try {
-    		this.m_thread.join();
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
+    public void waitJobEnding() throws InterruptedException {
+        this.m_thread.join();
     }
     /**
      * When an object extends this class, it must implements this method. It will
      * be run when the job scheduler will launch this job.
      */
-    public abstract void run();
+    public abstract void runJob() throws InterruptedException;
+
+    public void run() {
+        try {
+            this.runJob();
+        }
+        catch (InterruptedException iex) {}
+        System.out.println("Current job is stopped.");
+    }
     
     /**
      * Start running this job
@@ -163,5 +167,12 @@ public abstract class Job extends Thread {
      */
     public JobStatus getStatus() {
         return this.m_status;
+    }
+
+    /**
+     * Stop the current job
+     */
+    public void stopJob() {
+        this.m_thread.interrupt();
     }
 }

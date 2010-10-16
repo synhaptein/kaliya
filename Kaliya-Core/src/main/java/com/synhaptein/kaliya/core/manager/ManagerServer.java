@@ -64,7 +64,7 @@ public class ManagerServer extends Server {
     /**
      * Add the client to the thread pool
      */
-    public void run(){
+    public void runServer() {
         try {
         while (true) {
                 this.m_threadPool.execute(new Manager(this, m_serverSocket.accept(), this.m_workerServer));

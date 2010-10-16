@@ -51,18 +51,18 @@ public class JobScheduler extends Thread {
      * When the job scheduler is started, it runs in batch the job in the queue
      */
     public void run() {
-        while(true) {
-            try {
+        try {
+            while(!this.isInterrupted()) {
                 this.m_runningJob = this.m_jobList.take();
                 this.m_runningJob.startJob();
                 this.m_runningJob.setStatus(Job.JobStatus.RUNNING);
                 this.m_runningJob.waitJobEnding();
                 this.m_jobListDone.add(this.m_runningJob);
                 this.m_runningJob = null;
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
+        catch (InterruptedException iex) {}
+        System.out.println("Job Scheduler is stopped.");
     }
     
     /**
@@ -72,7 +72,7 @@ public class JobScheduler extends Thread {
     public Job getNextJob() {
         try {
             return this.m_jobList.take();
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return null;
@@ -94,7 +94,10 @@ public class JobScheduler extends Thread {
     }
 
     public void stopJobScheduler() {
-        this.stop();
+        if(this.m_runningJob != null) {
+            this.m_runningJob.stopJob();
+        }
+        this.interrupt();
     }
     
 }

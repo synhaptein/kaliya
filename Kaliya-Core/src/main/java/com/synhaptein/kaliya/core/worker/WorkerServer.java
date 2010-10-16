@@ -3,6 +3,7 @@ package com.synhaptein.kaliya.core.worker;
 import com.synhaptein.kaliya.core.Information;
 import com.synhaptein.kaliya.core.Server;
 
+import java.io.IOException;
 import java.util.concurrent.Executors;
 
 /**
@@ -39,13 +40,15 @@ public class WorkerServer extends Server {
     /**
      * Add the clients to the thread pool when they connect
      */
-    public void run() {
-        try {
-            while (true) {
-                new Handler(this, this.m_threadPool, this.m_serverSocket.accept(), this.m_communicationBuffer);
+    public void runServer() throws InterruptedException {
+            while (!this.m_thread.isInterrupted()) {
+                try {
+                    new Handler(this, this.m_threadPool, this.m_serverSocket.accept(), this.m_communicationBuffer);
+                }
+                catch (IOException iox) {
+                    //iox.printStackTrace();
+                    break;
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

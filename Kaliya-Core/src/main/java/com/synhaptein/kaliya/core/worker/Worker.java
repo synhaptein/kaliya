@@ -4,6 +4,7 @@ import com.synhaptein.kaliya.core.Client;
 import com.synhaptein.kaliya.core.Message;
 import com.synhaptein.kaliya.core.Server;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 
@@ -47,7 +48,7 @@ public class Worker extends Client {
     /**
      * Receive messages from the client and put it in the communication buffer
      */
-    public void run() {
+    public void runClient() throws InterruptedException {
         try {
             String sReceived = "";
             char[] tab = new char[1];
@@ -63,7 +64,7 @@ public class Worker extends Client {
                     sReceived = "";
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             this.m_server.removeClient(this);

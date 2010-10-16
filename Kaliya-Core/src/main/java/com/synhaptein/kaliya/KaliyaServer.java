@@ -50,6 +50,7 @@ public class KaliyaServer {
     }
 
     public void stopServer() {
-        
+        this.m_workerServer.stopServer();
+        this.m_jobScheduler.stopJobScheduler();
     }
 }
