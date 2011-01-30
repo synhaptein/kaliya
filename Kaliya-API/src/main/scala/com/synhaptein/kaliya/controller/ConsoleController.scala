@@ -23,9 +23,7 @@ import com.synhaptein.kaliya.core.Information
 
 class ConsoleController extends Controller {
   override def index() = {
-    Information.getParameterMap.
-    val view = new View("console.ssp") with Scalate
-    
-    return view
+    //Information.getParameterMap.
+    new View("console.ssp") with Scalate
   }
 }
