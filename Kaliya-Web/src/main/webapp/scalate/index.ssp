@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<script type="text/javascript" src="resources/js/jquery.js"></script>
+		<script type="text/javascript" src="resources/js/md5.js"></script>
+		<script type="text/javascript" src="resources/js/jSocket.js"></script>
+	</head>
+	<body>
+        <h1>Client</h1>
+        <textarea id="console" cols="100" rows="25"></textarea>
+        <div id='socket'></div>
+        <script type="text/javascript" src="resources/js/client.js"></script>
+        <a href="console">Administration console</a>
+	</body>
+</html>

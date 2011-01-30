@@ -22,20 +22,21 @@ import io.Source
  * @license       http://www.synhaptein.com/Kaliya/license.html
  */
 
+object KaliyaServerListener {
+  var kaliyaServer: KaliyaServer = null
+}
 class KaliyaServerListener extends ServletContextListener
 {
-  var kaliyaServer : KaliyaServer = null;
-
   override def contextDestroyed(event : ServletContextEvent) = {
     println("Stop Kaliya server");
-    this.kaliyaServer.stopServer;
+    KaliyaServerListener.kaliyaServer.stopServer;
   }
 
 	override def contextInitialized(event : ServletContextEvent) = {
 		println("Start Kaliya server");
     try {
       val path = event.getServletContext().getRealPath("/WEB-INF/KaliyaServerConf.xml")
-      this.kaliyaServer = new KaliyaServer(path)
+      KaliyaServerListener.kaliyaServer = new KaliyaServer(path)
       Information.setCrossDomain(Source.fromFile(event.getServletContext().getRealPath(Information.pathToCrossDomain)).mkString)
     }
     catch {

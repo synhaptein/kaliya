@@ -1,0 +1,80 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="resources/css/joblist.css">
+</head>
+<body>
+<div id="header">
+<h1>Kaliya Console</h1>
+</div>
+<div id="main">
+<h2>Job list</h2>
+<table>
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Job</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tr class="odd">
+        <td>---</td>
+        <td>---</td>
+        <td>---</td>
+        <td>---</td>
+    </tr>
+    <tfoot>
+        <tr>
+            <th scope="row">Total</th>
+            <td>0</td>
+        </tr>
+    </tfoot>
+</table>
+<%-- TODO job list --%>
+<h2>System informations</h2>
+<table>
+    <thead>
+        <tr>
+            <th scope="col">Parameter</th>
+            <th scope="col">Value</th>
+        </tr>
+    </thead>
+    <tr class="odd">
+        <td>---</td>
+        <td>---</td>
+    </tr>
+    <tfoot>
+        <tr>
+            <th scope="row"></th>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+<%-- TODO print parameter list --%>
+<h2>Installed Demo</h2>
+<div id="demos">MD5 Cracker</div>
+</div>
+<div id="right">
+<h2>Client List</h2>
+<table>
+    <thead>
+        <tr>
+            <th scope="col">Client</th>
+            <th scope="col">Address</th>
+        </tr>
+    </thead>
+    <tr class="odd">
+        <td>---</td>
+        <td>---</td>
+    </tr>
+    <tfoot>
+        <tr>
+            <th scope="row">Total</th>
+            <td>0</td>
+        </tr>
+    </tfoot>
+</table>
+<%-- TODO print client list --%>
+</div>
+</body>
+</html>

@@ -65,6 +65,7 @@ public abstract class Job extends Thread {
      * @param p_workerServer worker server
      */
     public Job(int p_jobId, Server p_workerServer) {
+        super("Kaliya-Job-" + p_jobId);
         this.m_jobId = p_jobId;
         this.init(p_workerServer);
     }

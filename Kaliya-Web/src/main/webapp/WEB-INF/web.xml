@@ -1,8 +1,4 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
-
-<web-app>
+<web-app version="2.5">
   <display-name>Kaliya</display-name>
 
   <context-param>
@@ -15,73 +11,16 @@
     <listener-class>com.synhaptein.kaliya.listener.KaliyaServerListener</listener-class>
   </listener>
 
-  <servlet>
-    <servlet-name>NavigationManager</servlet-name>
-    <servlet-class>com.synhaptein.scalator.NavigationManager</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>NavigationManager</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.js</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.swf</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.css</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.jpg</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/favicon.ico</url-pattern>
-  </servlet-mapping>
-
-  <!--error-page>
-    <error-code>403</error-code>
-    <location>/error/error403</location>
-  </error-page>
-  <error-page>
-    <error-code>404</error-code>
-    <location>/error/error404</location>
-  </error-page>
-  <error-page>
-   <error-code>500</error-code>
-   <location>/500.html</location>
-  </error-page-->
-
-  <security-constraint>
-    <web-resource-collection>
-    <web-resource-name>Deny Direct Access to JSPs</web-resource-name>
-    <description>
-    </description>
-    <url-pattern>/jsp/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-    <role-name>Denied</role-name>
-    </auth-constraint>
-  </security-constraint>
-  <security-constraint>
-    <web-resource-collection>
-    <web-resource-name>Deny Direct Access to VMs</web-resource-name>
-    <description>
-    </description>
-    <url-pattern>/vm/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-    <role-name>Denied</role-name>
-    </auth-constraint>
-  </security-constraint>
-  <security-role>
-    <role-name>Denied</role-name>
-  </security-role>
+  <filter>
+    <filter-name>Scalator Navigation Manager</filter-name>
+    <filter-class>com.synhaptein.scalator.NavigationManager</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>Scalator Navigation Manager</filter-name>
+    <url-pattern>*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
 
 </web-app>

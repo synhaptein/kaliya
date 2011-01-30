@@ -51,6 +51,7 @@ public abstract class Server extends Thread {
      * @param p_port server port
      */
     public Server(int p_port) {
+        super("Kaliya-Server");
         this.m_clientList = new LinkedHashMap<String, Client>();
         this.m_communicationBuffer = new LinkedBlockingQueue<Message>();
         try {

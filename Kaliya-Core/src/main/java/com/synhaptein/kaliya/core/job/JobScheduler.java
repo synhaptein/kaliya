@@ -29,6 +29,7 @@ public class JobScheduler extends Thread {
      * Construct a new JobScheduler and start running it.
      */
     public JobScheduler() {
+        super("Kaliya-JobScheduler");
         this.m_jobList = new LinkedBlockingQueue<Job>();
         this.m_jobListDone = Collections.synchronizedList(new LinkedList<Job>());
         this.start();

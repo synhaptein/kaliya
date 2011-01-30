@@ -1,6 +1,6 @@
 package com.synhaptein.kaliya.controller
 
-import com.synhaptein.scalator.views.{View, Jsp}
+import com.synhaptein.scalator.views.{View, Scalate}
 import com.synhaptein.scalator.controllers.Controller
 
 /**
@@ -22,6 +22,6 @@ import com.synhaptein.scalator.controllers.Controller
 class IndexController extends Controller
 {
   override def index() = {
-    new View("index.jsp") with Jsp
+    new View("index.ssp") with Scalate
   }
 }

@@ -1,7 +1,9 @@
 package com.synhaptein.kaliya.controller
 
-import com.synhaptein.scalator.views.{Jsp, View}
+import com.synhaptein.scalator.views.{Scalate, View}
 import com.synhaptein.scalator.controllers.Controller
+import com.synhaptein.kaliya.listener.KaliyaServerListener
+import com.synhaptein.kaliya.core.Information
 
 /**
  * Render management console
@@ -21,6 +23,9 @@ import com.synhaptein.scalator.controllers.Controller
 
 class ConsoleController extends Controller {
   override def index() = {
-    new View("console.jsp") with Jsp
+    Information.getParameterMap.
+    val view = new View("console.ssp") with Scalate
+    
+    return view
   }
 }
