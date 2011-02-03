@@ -1,3 +1,7 @@
+<%@ val lstJobs: java.util.List[com.synhaptein.kaliya.core.job.Job] %>
+<%@ val mapParamsConf: java.util.Map[String, String] %>
+<%@ val mapClients: java.util.Map[String, com.synhaptein.kaliya.core.Client] %>
+<% var idx = 0 %>
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="resources/css/joblist.css">
@@ -17,20 +21,31 @@
             <th scope="col">Action</th>
         </tr>
     </thead>
-    <tr class="odd">
-        <td>---</td>
-        <td>---</td>
-        <td>---</td>
-        <td>---</td>
-    </tr>
+    <% idx = 0 %>
+    #if(lstJobs.size() == 0)
+        <tr class="odd">
+            <td>---</td>
+            <td>---</td>
+            <td>---</td>
+            <td>---</td>
+        </tr>
+    #end
+    #foreach(job <- lstJobs)
+         <tr class=#if( idx%2 == 0 )"odd"#else"even"#end>
+            <td>${job.getJobId()}</td>
+            <td>${job.toString()}</td>
+            <td>${job.getStatus()}</td>
+            <td></td>
+        </tr>
+        ${idx = idx+1}
+    #end
     <tfoot>
         <tr>
             <th scope="row">Total</th>
-            <td>0</td>
+            <td>${lstJobs.size()}</td>
         </tr>
     </tfoot>
 </table>
-<%-- TODO job list --%>
 <h2>System informations</h2>
 <table>
     <thead>
@@ -39,10 +54,20 @@
             <th scope="col">Value</th>
         </tr>
     </thead>
-    <tr class="odd">
-        <td>---</td>
-        <td>---</td>
-    </tr>
+    <% idx = 0 %>
+    #if(mapParamsConf.size() == 0)
+        <tr class="odd">
+            <td>---</td>
+            <td>---</td>
+        </tr>
+    #end
+    #foreach(param <- mapParamsConf.keySet())
+         <tr class=#if( idx%2 == 0 )"odd"#else"even"#end>
+            <td>${param}</td>
+            <td>${mapParamsConf.get(param)}</td>
+        </tr>
+        ${idx = idx+1}
+    #end
     <tfoot>
         <tr>
             <th scope="row"></th>
@@ -50,7 +75,6 @@
         </tr>
     </tfoot>
 </table>
-<%-- TODO print parameter list --%>
 <h2>Installed Demo</h2>
 <div id="demos">MD5 Cracker</div>
 </div>
@@ -63,18 +87,27 @@
             <th scope="col">Address</th>
         </tr>
     </thead>
-    <tr class="odd">
-        <td>---</td>
-        <td>---</td>
-    </tr>
+    <% idx = 0 %>
+    #if(mapClients.size() == 0)
+        <tr class="odd">
+            <td>---</td>
+            <td>---</td>
+        </tr>
+    #end
+    #foreach(client <- mapClients.values())
+         <tr class=#if( idx%2 == 0 )"odd"#else"even"#end>
+            <td>${client.getIdClient()}</td>
+            <td>${client.getIp()}</td>
+        </tr>
+        ${idx = idx+1}
+    #end
     <tfoot>
         <tr>
             <th scope="row">Total</th>
-            <td>0</td>
+            <td>${mapClients.size()}</td>
         </tr>
     </tfoot>
 </table>
-<%-- TODO print client list --%>
 </div>
 </body>
 </html>

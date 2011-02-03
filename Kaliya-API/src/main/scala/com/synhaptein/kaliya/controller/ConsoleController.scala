@@ -23,7 +23,11 @@ import com.synhaptein.kaliya.core.Information
 
 class ConsoleController extends Controller {
   override def index() = {
-    //Information.getParameterMap.
-    new View("console.ssp") with Scalate
+    val view = new View("console.ssp") with Scalate
+    view.addObjects(
+      "lstJobs" -> KaliyaServerListener.kaliyaServer.getJobScheduler.getJobList,
+      "mapParamsConf" -> Information.getParameterMap,
+      "mapClients" -> KaliyaServerListener.kaliyaServer.getWorkerServer.getClientList)
+    view
   }
 }
