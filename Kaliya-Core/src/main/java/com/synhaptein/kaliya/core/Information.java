@@ -121,15 +121,6 @@ public class Information {
         return getParameter("pathToCrossDomain");
     }
 
-    /**
-     * Tell if the manager buffer is fill with command that the instruction
-     * evaluator didn't recognise or not
-     * @return the value in the configuration file
-     */
-    public static boolean useManagerBuffer() {
-        return Boolean.valueOf(getParameter("useManagerBuffer"));
-    }
-
     public static void setCrossDomain(String p_crossDomain) {
         m_crossDomain = p_crossDomain;
     }

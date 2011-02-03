@@ -1,20 +1,12 @@
 <?xml version="1.0"?>
 <parameters>
-        <parameter>
+    <parameter>
 		<key>workerThreadPoolSize</key>
 		<value>10</value>
-	</parameter>
-        <parameter>
-		<key>managerThreadPoolSize</key>
-		<value>5</value>
 	</parameter>
 	<parameter>
 		<key>workerPort</key>
 		<value>1222</value>
-	</parameter>
-	<parameter>
-		<key>managerPort</key>
-		<value>1223</value>
 	</parameter>
 	<parameter>
 		<key>pathToCrossDomain</key>
@@ -23,9 +15,5 @@
 	<parameter>
 		<key>isDebug</key>
 		<value>true</value>
-	</parameter>
-	<parameter>
-		<key>useManagerBuffer</key>
-		<value>false</value>
 	</parameter>
 </parameters>
