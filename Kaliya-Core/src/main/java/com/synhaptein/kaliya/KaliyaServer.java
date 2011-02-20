@@ -1,9 +1,7 @@
 package com.synhaptein.kaliya;
 
-import com.synhaptein.kaliya.core.ClientKeepAlive;
 import com.synhaptein.kaliya.core.Information;
 import com.synhaptein.kaliya.core.job.JobScheduler;
-import com.synhaptein.kaliya.core.manager.ManagerServer;
 import com.synhaptein.kaliya.core.worker.WorkerServer;
 import com.synhaptein.kaliya.modules.md5cracker.Md5Cracker;
 

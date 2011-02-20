@@ -21,7 +21,7 @@ import com.synhaptein.kaliya.core.Information
  * @license       http://www.synhaptein.com/Kaliya/license.html
  */
 
-class ConsoleController extends Controller {
+class Console extends Controller {
   override def index() = {
     val view = new View("console.ssp") with Scalate
     view.addObjects(

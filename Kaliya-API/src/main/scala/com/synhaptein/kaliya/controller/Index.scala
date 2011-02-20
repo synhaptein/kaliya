@@ -19,7 +19,7 @@ import com.synhaptein.scalator.controllers.Controller
  * @license       http://www.synhaptein.com/Kaliya/license.html
  */
 
-class IndexController extends Controller
+class Index extends Controller
 {
   override def index() = {
     new View("index.ssp") with Scalate
