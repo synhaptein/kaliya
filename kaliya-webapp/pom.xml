@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.synhaptein</groupId>
+  <artifactId>kaliya-webapp</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>kaliya-webapp</name>
+  <url>http://www.synhaptein.com/kaliya</url>
+  <inceptionYear>2010</inceptionYear>
+
+  <parent>
+    <groupId>com.synhaptein</groupId>
+    <artifactId>kaliya</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+    
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+       <groupId>com.synhaptein</groupId>
+       <artifactId>kaliya-command</artifactId>
+       <version>0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+       <groupId>com.synhaptein</groupId>
+       <artifactId>scalator-core</artifactId>
+       <version>${scalator.version}</version>
+    </dependency>
+  </dependencies>
+    
+  <build>
+    <finalName>kaliya</finalName>
+  </build>
+</project>
