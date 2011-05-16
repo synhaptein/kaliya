@@ -145,9 +145,9 @@ public abstract class Server extends Thread {
      */
     public void stopServer() {
         this.m_threadPool.shutdownNow();
-        /*for(Client client : this.m_clientList.values()) {
+        for(Client client : this.m_clientList.values()) {
             this.removeClient(client);
-        } */
+        }
         this.m_thread.interrupt();
         try {
             this.m_serverSocket.close();

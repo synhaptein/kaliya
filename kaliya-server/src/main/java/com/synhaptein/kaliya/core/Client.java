@@ -1,8 +1,6 @@
 package com.synhaptein.kaliya.core;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -16,7 +14,7 @@ import java.net.Socket;
  * @license       http://www.synhaptein.com/kaliya/license.html
  */
 
-public abstract class Client implements Runnable {
+public abstract class Client<T> implements Runnable {
 
     /**
      * Client's socket
@@ -37,14 +35,14 @@ public abstract class Client implements Runnable {
     /**
      * Client's server
      */
-    protected Server m_server;
+    protected T m_server;
 
     /**
      * Construct a new client with its server and its socket
      * @param p_server The client server
      * @param p_socket The client socket
      */
-    public Client(Server p_server, Socket p_socket) {
+    public Client(T p_server, Socket p_socket) {
         try {
             this.m_socket = p_socket;
             this.m_server = p_server;
@@ -92,8 +90,9 @@ public abstract class Client implements Runnable {
      */
     public synchronized void sendMsg(String p_sMsg) {
         try {
-            this.m_writerOut.write(p_sMsg);
-            this.m_writerOut.flush();
+            DataOutputStream os = new DataOutputStream(m_socket.getOutputStream());
+            os.writeUTF(p_sMsg);
+            os.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }

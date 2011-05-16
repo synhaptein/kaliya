@@ -38,7 +38,7 @@ public class Handler {
 	 * @throws java.io.IOException
 	 *             If the stream with the client fails
 	 */
-	public Handler(Server p_server, ExecutorService p_threadPool,
+	public Handler(WorkerServer p_server, ExecutorService p_threadPool,
 			Socket p_clientSocket, BlockingQueue<Message> p_communicationBuffer)
 			throws IOException, InterruptedException {
 		
@@ -66,8 +66,9 @@ public class Handler {
 			out.write(buffer);
 			p_clientSocket.close();
 		} else {
-			p_threadPool.execute(new Worker(p_server, p_clientSocket,
-					p_communicationBuffer));
+            Worker worker = new Worker(p_server, p_clientSocket,
+					p_communicationBuffer);
+			p_threadPool.execute(worker);
 		}
 	}
 }

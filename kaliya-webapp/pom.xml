@@ -4,7 +4,7 @@
   <groupId>com.synhaptein</groupId>
   <artifactId>kaliya-webapp</artifactId>
   <version>0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   <name>kaliya-webapp</name>
   <url>http://www.synhaptein.com/kaliya</url>
   <inceptionYear>2010</inceptionYear>

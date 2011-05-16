@@ -109,4 +109,18 @@ public class WordIterator {
         charlist[a] = charlist[b];
         charlist[b] = tmp;
     }
+
+    private String getNextBlock() {
+        StringBuilder result = new StringBuilder();
+        result.append("[");
+        for (int i = 0; i < 999; ++i) {
+            result.append("\"");
+            //result.append(this.m_wordIterator.next());
+            result.append("\",");
+        }
+        result.append("\"");
+        //result.append(this.m_wordIterator.next());
+        result.append("\"]");
+        return result.toString();
+    }
 }

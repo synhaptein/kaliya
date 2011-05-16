@@ -1,10 +1,13 @@
 package com.synhaptein.kaliya.core.worker;
 
+import com.synhaptein.kaliya.core.Client;
 import com.synhaptein.kaliya.core.Information;
 import com.synhaptein.kaliya.core.Server;
 
 import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Implementation of the worker server.
@@ -18,6 +21,7 @@ import java.util.concurrent.Executors;
  */
 
 public class WorkerServer extends Server {
+    private BlockingQueue<Worker> m_lstWorkerIdle = new LinkedBlockingQueue<Worker>();
 
     /**
      * Construct a new worker server on a specific port
@@ -47,5 +51,24 @@ public class WorkerServer extends Server {
                     break;
                 }
             }
+    }
+
+    public Worker getIdleWorker() throws InterruptedException {
+        return m_lstWorkerIdle.take();
+    }
+
+    public void setIdleWorker(Worker p_worker) {
+        p_worker.setStatus(Worker.Status.IDLE);
+        m_lstWorkerIdle.add(p_worker);
+    }
+
+    public void addClient(Client p_worker) {
+        super.addClient(p_worker);
+        m_lstWorkerIdle.add((Worker)p_worker);     
+    }
+
+    public void removeClient(Client p_worker) {
+        super.removeClient(p_worker);
+        m_lstWorkerIdle.remove(p_worker);
     }
 }

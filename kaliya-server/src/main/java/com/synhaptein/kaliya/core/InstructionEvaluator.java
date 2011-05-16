@@ -14,18 +14,18 @@ import java.util.Map;
  * @license       http://www.synhaptein.com/kaliya/license.html
  */
 
-public abstract class InstructionEvaluator {
+public abstract class InstructionEvaluator<T> {
     /**
      * The link between String and Integer of the command that the
      * instruction evaluator implements
      */
-    protected Map<String, Integer> m_instructionMap;
+    protected Map<String, T> m_instructionMap;
     
     /**
      * Construct a new instruction evaluator
      */
     public InstructionEvaluator() {
-        this.m_instructionMap = new HashMap<String, Integer>();
+        this.m_instructionMap = new HashMap<String, T>();
     }
     
     /**
@@ -41,7 +41,7 @@ public abstract class InstructionEvaluator {
      * @param p_command the command string from the client
      * @return the integer value of the command
      */
-    protected int getCommand(String p_command){
-        return this.m_instructionMap.get(p_command) != null ? this.m_instructionMap.get(p_command) : -1;
+    protected T getCommand(String p_command){
+        return this.m_instructionMap.get(p_command) != null ? this.m_instructionMap.get(p_command) : null;
     }
 }

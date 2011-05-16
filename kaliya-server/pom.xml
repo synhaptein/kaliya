@@ -17,6 +17,11 @@
     
   <dependencies>
     <dependency>
+     <groupId>org.codehaus.jackson</groupId>
+     <artifactId>jackson-mapper-asl</artifactId>
+     <version>${jackson-core.version}</version>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>

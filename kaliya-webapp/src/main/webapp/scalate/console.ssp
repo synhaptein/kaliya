@@ -1,10 +1,11 @@
-<%@ val lstJobs: java.util.List[com.synhaptein.kaliya.core.job.Job] %>
+<%@ val lstJobs: java.util.List[com.synhaptein.kaliya.core.job.Job[_,_,_]] %>
 <%@ val mapParamsConf: java.util.Map[String, String] %>
-<%@ val mapClients: java.util.Map[String, com.synhaptein.kaliya.core.Client] %>
+<%@ val mapClients: java.util.Map[String, com.synhaptein.kaliya.core.Client[_]] %>
 <% var idx = 0 %>
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="resources/css/joblist.css">
+<title>Kaliya Console</title>
 </head>
 <body>
 <div id="header">

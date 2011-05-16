@@ -2,7 +2,7 @@ package com.synhaptein.kaliya.core.worker;
 
 import com.synhaptein.kaliya.core.Client;
 import com.synhaptein.kaliya.core.Message;
-import com.synhaptein.kaliya.core.Server;
+import com.synhaptein.kaliya.core.mapreduce.Task;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -19,8 +19,13 @@ import java.util.concurrent.BlockingQueue;
  * @license       http://www.synhaptein.com/kaliya/license.html
  */
 
-public class Worker extends Client {
+public class Worker extends Client<WorkerServer> {
+    public enum Status {
+        WORKING,
+        IDLE;
+    }
 
+    private Status m_status = Status.IDLE;
     private BlockingQueue<Message> m_communicationBuffer;
 
     /**
@@ -29,7 +34,7 @@ public class Worker extends Client {
      * @param p_socket client socket
      * @param p_communicationBuffer communication buffer
      */
-    public Worker(Server p_server, Socket p_socket, BlockingQueue<Message> p_communicationBuffer) {
+    public Worker(WorkerServer p_server, Socket p_socket, BlockingQueue<Message> p_communicationBuffer) {
         super(p_server, p_socket);
         try {
             this.m_communicationBuffer = p_communicationBuffer;
@@ -49,11 +54,9 @@ public class Worker extends Client {
         try {
             String sReceived = "";
             char[] tab = new char[1];
-            this.sendMsg("OK!\n");
             while (this.m_readerIn.read(tab, 0, 1) != -1) {
                 sReceived += tab[0];
                 if (tab[0] == '\0' && sReceived.length() > 1) {
-                    sReceived = sReceived.substring(1, sReceived.length() - 1);
                     this.m_communicationBuffer.put(new Message(this, sReceived));
                     System.out.println(this.m_id + ": " + sReceived);
                     sReceived = "";
@@ -69,5 +72,16 @@ public class Worker extends Client {
         }
     }
 
-    
+    public Status getStatus() {
+        return m_status;
+    }
+
+    public void setStatus(Status p_status) {
+        m_status = p_status;
+    }
+
+    public void sendTask(Task p_task) {
+        setStatus(Status.WORKING);
+        p_task.writeTask(this);
+    }
 }

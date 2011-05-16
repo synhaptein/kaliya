@@ -1,5 +1,7 @@
 package com.synhaptein.kaliya.core.job;
 
+import com.synhaptein.kaliya.core.worker.WorkerServer;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,14 +23,16 @@ public class JobScheduler extends Thread {
     private BlockingQueue<Job> m_jobList;
     private List<Job> m_jobListDone;
     private Job m_runningJob;
+    private WorkerServer m_server;
     
     /**
      * Construct a new JobScheduler and start running it.
      */
-    public JobScheduler() {
+    public JobScheduler(WorkerServer p_server) {
         super("Kaliya-JobScheduler");
         this.m_jobList = new LinkedBlockingQueue<Job>();
         this.m_jobListDone = Collections.synchronizedList(new LinkedList<Job>());
+        m_server = p_server;
         this.start();
     }
     
@@ -50,30 +54,16 @@ public class JobScheduler extends Thread {
      */
     public void run() {
         try {
-            while(!this.isInterrupted()) {
-                this.m_runningJob = this.m_jobList.take();
-                this.m_runningJob.startJob();
-                this.m_runningJob.setStatus(Job.JobStatus.RUNNING);
-                this.m_runningJob.waitJobEnding();
-                this.m_jobListDone.add(this.m_runningJob);
-                this.m_runningJob = null;
+            while(!isInterrupted()) {
+                m_runningJob = this.m_jobList.take();
+                m_runningJob.setStatus(Job.JobStatus.RUNNING);
+                m_runningJob.runJob(m_server);
+                m_jobListDone.add(this.m_runningJob);
+                m_runningJob = null;
             }
         }
         catch (InterruptedException iex) {}
         System.out.println("Job Scheduler is stopped.");
-    }
-    
-    /**
-     * Return the next job in the queue and remove it from the queue
-     * @return the next job
-     */
-    public Job getNextJob() {
-        try {
-            return this.m_jobList.take();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
     
     /**
@@ -93,7 +83,7 @@ public class JobScheduler extends Thread {
 
     public void stopJobScheduler() {
         if(this.m_runningJob != null) {
-            this.m_runningJob.stopJob();
+            //this.m_runningJob.stopJob();
         }
         this.interrupt();
     }

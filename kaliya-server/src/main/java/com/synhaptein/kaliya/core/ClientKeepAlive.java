@@ -46,7 +46,7 @@ public class ClientKeepAlive extends Thread {
         while (currentThread == this.m_thread) {
             for (Client client : this.m_clientList.values()) {
                 try {
-                    client.sendMsg("PING!\n");
+                    client.sendMsg("PING!");
                 } catch (Exception e) {
                     this.m_server.removeClient(client);
                     e.printStackTrace();
