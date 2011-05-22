@@ -3,9 +3,6 @@ package com.synhaptein.kaliya.core.mapreduce;
 import com.synhaptein.kaliya.core.worker.Worker;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import java.io.OutputStream;
-import java.io.PrintWriter;
-
 /**
  * Abstract task that is sent to workers.
  *

@@ -1,11 +1,13 @@
 package com.synhaptein.kaliya.core.job;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import com.synhaptein.kaliya.core.mapreduce.MapReducer;
 import com.synhaptein.kaliya.core.mapreduce.MapReducerListener;
+import com.synhaptein.kaliya.core.mapreduce.Pair;
 import com.synhaptein.kaliya.core.worker.WorkerServer;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Abstraction of a job. To create a new module, extend this class.
@@ -47,6 +49,8 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
     
     private JobStatus m_status = JobStatus.WAITING;
     private int m_jobId;
+    private List<Pair<String, Vout>> m_results;
+    protected boolean m_mapOnly = false;
     
     /**
      * Construct a new job
@@ -80,8 +84,14 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
     
     public abstract String getJobName();
 
+    public abstract void initMapReducer(MapReducer<Vin, Vint, Vout> p_mapReducer);
+
     public void runJob(WorkerServer p_server) throws InterruptedException {
         MapReducer<Vin, Vint, Vout> mapReducer = new MapReducer<Vin, Vint, Vout>(getJobName(), p_server, getIterator());
+        if(m_mapOnly) {
+            mapReducer.setMapOnly();
+        }
+        initMapReducer(mapReducer);
         MapReducerListener mapReducerListener = new MapReducerListener(mapReducer, p_server);
         mapReducerListener.start();
         mapReducer.start();
@@ -90,6 +100,7 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
             mapReducerListener.join();
         }
         catch (InterruptedException e) {}
+        setResults(mapReducer.getResults());
         System.out.println("Job " + m_jobId + " is finished.");
     }
 
@@ -110,4 +121,12 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
     }
 
     public abstract Iterator<Map.Entry<String, Vin>> getIterator();
+
+    public void setResults(List<Pair<String, Vout>> p_results) {
+        m_results = p_results;
+    }
+
+    public List<Pair<String, Vout>> getResults() {
+        return m_results;
+    }
 }

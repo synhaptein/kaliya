@@ -1,28 +1,24 @@
 package com.synhaptein.kaliya.modules.reverseIndexer;
 
-import com.synhaptein.kaliya.core.job.Job;
+import com.synhaptein.kaliya.core.job.JobMapOnly;
+import com.synhaptein.kaliya.core.mapreduce.MapReducer;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 /**
- * ****FILL THIS!!!!****.
- * <p/>
- * <p/>
- * scalator : (http://www.synhaptein.com/scalator)
- * Copyright 2010, SynHaptein (http://www.synhaptein.com)
- * <p/>
+ * Demo of a reverse index algorithm.
+ *
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright Copyright 2010, SynHaptein (http://www.synhaptein.com)
- * @link http://www.synhaptein.com/scalator scalator project
- * @package ****FILL THIS!!!!****
- * @license http://www.synhaptein.com/scalator/license.html
- * @since scalator 0.1
+ * @copyright     Copyright 2010-2011, SynHaptein (http://www.synhaptein.com)
+ * @link          http://www.synhaptein.com/kaliya kaliya project
+ * @since         kaliya 0.1
+ * @license       http://www.synhaptein.com/kaliya/license.html
  */
 
-public class ReverseIndexer extends Job<String , String, String> {
+public class ReverseIndexer extends JobMapOnly<String, String> {
 
     @Override
     public String toString() {
@@ -32,6 +28,11 @@ public class ReverseIndexer extends Job<String , String, String> {
     @Override
     public String getJobName() {
         return "reverseIndexer";
+    }
+
+    @Override
+    public void initMapReducer(MapReducer<String, String, String> p_mapReducer) {
+       //p_mapReducer.setMapOnly();
     }
 
     @Override

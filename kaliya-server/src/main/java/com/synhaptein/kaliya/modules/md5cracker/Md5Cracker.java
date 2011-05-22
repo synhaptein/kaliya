@@ -1,15 +1,13 @@
 package com.synhaptein.kaliya.modules.md5cracker;
 
-import com.synhaptein.kaliya.core.*;
 import com.synhaptein.kaliya.core.job.Job;
 import com.synhaptein.kaliya.core.mapreduce.MapReducer;
-import com.synhaptein.kaliya.core.worker.WorkerServer;
 
 import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Core of the MD5 Cracker module.
+ * Demo of a md5cracker algorithm
  *
  * Redistributions of files must retain the above copyright notice.
  *
@@ -43,6 +41,11 @@ public class Md5Cracker extends Job<String, String, String> {
     @Override
     public String getJobName() {
         return "md5Cracker";
+    }
+
+    @Override
+    public void initMapReducer(MapReducer<String, String, String> p_mapReducer) {
+        
     }
 
     @Override

@@ -3,7 +3,13 @@ package com.synhaptein.kaliya.core.mapreduce;
 import com.synhaptein.kaliya.core.worker.Worker;
 import com.synhaptein.kaliya.core.worker.WorkerServer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 
 /**
  * The problem is split across all workers by using a mapreduce pattern.
@@ -27,15 +33,16 @@ public class MapReducer<Vin, Vint, Vout> extends Thread {
     private boolean m_allMapSent = false;
     private boolean m_allReduceSent = false;
     private Object LOCKMAP = new Object() {};
+    private boolean m_mapOnly = false;
 
     public MapReducer(String p_jobName, WorkerServer p_server, Iterator<Map.Entry<String, Vin>> p_problemIterator) {
         setName("MapReducer");
         m_jobName = p_jobName;
         m_server = p_server;
         m_problemIterator = p_problemIterator;
-        m_groupBy = Collections.synchronizedMap(new HashMap<String, List<Vint>>());
-        m_results = Collections.synchronizedList(new ArrayList<Pair<String, Vout>>());
-        m_currentTasks = Collections.synchronizedMap(new HashMap<Worker, Task>());
+        m_groupBy = new ConcurrentHashMap<String, List<Vint>>();
+        m_results = new CopyOnWriteArrayList<Pair<String, Vout>>();
+        m_currentTasks = new ConcurrentHashMap<Worker, Task>();
     }
 
     public void run() {
@@ -45,22 +52,33 @@ public class MapReducer<Vin, Vint, Vout> extends Thread {
                 Worker worker = m_server.getIdleWorker();
                 Task<Vin> task = new MapTask<Vin>(m_jobName, pair.getKey(), pair.getValue());
                 m_currentTasks.put(worker, task);
-                worker.sendTask(task);
+                synchronized (this) {
+                    worker.sendTask(task);
+                    if(!m_problemIterator.hasNext()) {
+                        m_allMapSent = true;
+                        m_allReduceSent = m_mapOnly;
+                    }
+                }
             }
 
-            m_allMapSent = true;
-            synchronized (LOCKMAP) {
-                LOCKMAP.wait();
-            }
+            if(!m_mapOnly) {
+                synchronized (LOCKMAP) {
+                    LOCKMAP.wait();
+                }
 
-            for(Map.Entry<String, List<Vint>> pair : m_groupBy.entrySet()) {
-                Worker worker = m_server.getIdleWorker();
-                Task<List<Vint>> task = new ReduceTask<List<Vint>>(m_jobName, pair.getKey(), pair.getValue());
-                m_currentTasks.put(worker, task);
-                worker.sendTask(task);
+                for(Iterator<Map.Entry<String, List<Vint>>> it = m_groupBy.entrySet().iterator(); it.hasNext();) {
+                    Map.Entry<String, List<Vint>> pair = it.next();
+                    Worker worker = m_server.getIdleWorker();
+                    Task<List<Vint>> task = new ReduceTask<List<Vint>>(m_jobName, pair.getKey(), pair.getValue());
+                    m_currentTasks.put(worker, task);
+                    synchronized (this) {
+                        worker.sendTask(task);
+                        if(!it.hasNext()) {
+                            m_allReduceSent = true;
+                        }
+                    }
+                }
             }
-
-            m_allReduceSent = true;
         }
         catch (InterruptedException e) {}
         System.out.println("MapReducer is finished.");
@@ -78,7 +96,17 @@ public class MapReducer<Vin, Vint, Vout> extends Thread {
     }
 
     public void addFinishedMapper(Worker p_worker, List<Pair<String, Vint>> p_map) {
-        addValues(m_groupBy, p_map);
+        if(m_mapOnly) {
+            for(Pair<String, Vint> pair : p_map) {
+                Pair<String, Vout> newPair = new Pair<String, Vout>();
+                newPair.key = pair.key;
+                newPair.value = (Vout)pair.value;
+                m_results.add(newPair);
+            }
+        }
+        else {
+            addValues(m_groupBy, p_map);
+        }
         m_currentTasks.remove(p_worker);
         m_server.setIdleWorker(p_worker);
     }
@@ -102,8 +130,18 @@ public class MapReducer<Vin, Vint, Vout> extends Thread {
     }
 
     public void startReduce() {
-        synchronized (LOCKMAP) {
-            LOCKMAP.notify();
+        if(!m_mapOnly) {
+            synchronized (LOCKMAP) {
+                LOCKMAP.notify();
+            }
         }
+    }
+
+    public void setMapOnly() {
+        m_mapOnly = true;
+    }
+
+    public List<Pair<String, Vout>> getResults() {
+        return m_results;
     }
 }
