@@ -14,8 +14,8 @@ import com.synhaptein.kaliya.core.worker.Worker;
  */
 
 public class ReduceTask<T> extends Task<T> {
-    public ReduceTask(String p_jobName, String p_key, T p_value) {
-        super(p_jobName, p_key, p_value);
+    public ReduceTask(String p_jobName, String p_taskId, String p_key, T p_value) {
+        super(p_jobName, p_taskId, p_key, p_value);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class ReduceTask<T> extends Task<T> {
         MapReduceRequest<T> request = new MapReduceRequest<T>();
         request.type = "REDUCE";
         request.job = m_job;
-        request.id = "uniqueIdTest";
+        request.id = m_taskId;
         request.key = m_key;
         request.value = m_value;
 

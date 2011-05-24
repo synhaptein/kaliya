@@ -54,17 +54,19 @@ public class WorkerServer extends Server {
     }
 
     public Worker getIdleWorker() throws InterruptedException {
-        return m_lstWorkerIdle.take();
+        Worker worker = m_lstWorkerIdle.take();
+        worker.setStatus(Worker.Status.WORKING);
+        return worker;
     }
 
     public void setIdleWorker(Worker p_worker) {
         p_worker.setStatus(Worker.Status.IDLE);
-        m_lstWorkerIdle.add(p_worker);
+        m_lstWorkerIdle.offer(p_worker);
     }
 
     public void addClient(Client p_worker) {
         super.addClient(p_worker);
-        m_lstWorkerIdle.add((Worker)p_worker);     
+        m_lstWorkerIdle.offer((Worker) p_worker);
     }
 
     public void removeClient(Client p_worker) {

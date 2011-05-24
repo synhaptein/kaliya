@@ -3,7 +3,6 @@ package com.synhaptein.kaliya;
 import com.synhaptein.kaliya.core.Information;
 import com.synhaptein.kaliya.core.job.JobScheduler;
 import com.synhaptein.kaliya.core.worker.WorkerServer;
-import com.synhaptein.kaliya.modules.md5cracker.Md5Cracker;
 import com.synhaptein.kaliya.modules.reverseIndexer.ReverseIndexer;
 
 /**
@@ -33,9 +32,12 @@ public class KaliyaServer {
         m_jobScheduler.addJob(new ReverseIndexer());
         m_jobScheduler.addJob(new ReverseIndexer());
         m_jobScheduler.addJob(new ReverseIndexer());
-        m_jobScheduler.addJob(new Md5Cracker("b1f4f9a523e36fd969f4573e25af4540"));
+        m_jobScheduler.addJob(new ReverseIndexer());
+        m_jobScheduler.addJob(new ReverseIndexer());
+        m_jobScheduler.addJob(new ReverseIndexer());
+        /*m_jobScheduler.addJob(new Md5Cracker("b1f4f9a523e36fd969f4573e25af4540"));
         m_jobScheduler.addJob(new Md5Cracker("5bdc53d8f514f4beedb00d3536d86ac2"));
-        m_jobScheduler.addJob(new Md5Cracker("73ae356a65a0fc82b3bcf8504ce7b18b"));
+        m_jobScheduler.addJob(new Md5Cracker("73ae356a65a0fc82b3bcf8504ce7b18b"));*/
     }
 
     public JobScheduler getJobScheduler() {

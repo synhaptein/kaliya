@@ -59,6 +59,7 @@ public class JobScheduler extends Thread {
                 m_runningJob.setStatus(Job.JobStatus.RUNNING);
                 m_runningJob.runJob(m_server);
                 m_jobListDone.add(this.m_runningJob);
+                m_runningJob.setStatus(Job.JobStatus.FINISHED);
                 m_runningJob = null;
             }
         }

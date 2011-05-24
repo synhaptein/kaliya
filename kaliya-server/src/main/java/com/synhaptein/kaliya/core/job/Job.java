@@ -87,12 +87,13 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
     public abstract void initMapReducer(MapReducer<Vin, Vint, Vout> p_mapReducer);
 
     public void runJob(WorkerServer p_server) throws InterruptedException {
-        MapReducer<Vin, Vint, Vout> mapReducer = new MapReducer<Vin, Vint, Vout>(getJobName(), p_server, getIterator());
+        MapReducer<Vin, Vint, Vout> mapReducer =
+                new MapReducer<Vin, Vint, Vout>(getJobName(), String.valueOf(m_jobId), p_server, getIterator());
         if(m_mapOnly) {
             mapReducer.setMapOnly();
         }
         initMapReducer(mapReducer);
-        MapReducerListener mapReducerListener = new MapReducerListener(mapReducer, p_server);
+        MapReducerListener<Vint, Vout> mapReducerListener = new MapReducerListener<Vint, Vout>(mapReducer, p_server);
         mapReducerListener.start();
         mapReducer.start();
         try {

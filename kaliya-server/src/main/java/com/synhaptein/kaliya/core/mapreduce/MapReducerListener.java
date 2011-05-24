@@ -20,12 +20,13 @@ public class MapReducerListener<Vint, Vout> extends Thread {
     private WorkerServer m_server;
     private InstructionEvaluator m_instructionEvaluator;
     private MapReducer<?, Vint, Vout> m_mapReducer;
-    
-    public MapReducerListener(MapReducer p_mapReducer, WorkerServer p_server) {
-        setName("MapReducerListener");
+    private boolean m_isMapFinished = false;
+
+    public MapReducerListener(MapReducer<?, Vint, Vout> p_mapReducer, WorkerServer p_server) {
+        setName("Kaliya-MapReducerListener");
         m_mapReducer = p_mapReducer;
         m_server = p_server;
-        m_instructionEvaluator = new MapReducerInstructionEvaluator<Vint, Vout>(p_mapReducer);
+        m_instructionEvaluator = new MapReducerInstructionEvaluator<Vint, Vout>(p_mapReducer, this);
     }
 
     public void run() {
@@ -42,15 +43,35 @@ public class MapReducerListener<Vint, Vout> extends Thread {
                     }
                 }
 
-                if(!m_mapReducer.allReduceSent() && m_mapReducer.allMapSent() && !m_mapReducer.isCurrentTaskRemaining()) {
-                    m_mapReducer.startReduce();
-                }
-                else if(m_mapReducer.allReduceSent() && !m_mapReducer.isCurrentTaskRemaining()) {
-                    break;
+                synchronized (m_mapReducer) {
+                    if(!m_isMapFinished && isMappingFinished()) {
+                        System.out.println("Start reducing...");
+                        m_mapReducer.startReduce();
+                    }
+                    else if(isReducingFinished()) {
+                        break;
+                    }
                 }
             }
         }
         catch (InterruptedException e) {}
         System.out.println("MapReducerListener is finished.");
+    }
+
+    private boolean isMappingFinished() {
+        boolean isFinished = !m_mapReducer.isMapOnly() && m_mapReducer.isFinishedOnFirstMap()
+                || !m_mapReducer.allReduceSent() && m_mapReducer.allMapSent() && !m_mapReducer.isCurrentTaskRemaining();
+
+        m_isMapFinished |= isFinished;
+        return isFinished;
+    }
+
+    private boolean isReducingFinished() {
+        return m_mapReducer.isMapOnly() && m_mapReducer.isFinishedOnFirstMap()
+                || m_mapReducer.allReduceSent() && !m_mapReducer.isCurrentTaskRemaining();
+    }
+
+    public boolean isMapFinished() {
+        return m_isMapFinished;
     }
 }

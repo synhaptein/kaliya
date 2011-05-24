@@ -1,6 +1,6 @@
 package com.synhaptein.kaliya.modules.reverseIndexer;
 
-import com.synhaptein.kaliya.core.job.JobMapOnly;
+import com.synhaptein.kaliya.core.job.Job;
 import com.synhaptein.kaliya.core.mapreduce.MapReducer;
 
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.Map;
  * @license       http://www.synhaptein.com/kaliya/license.html
  */
 
-public class ReverseIndexer extends JobMapOnly<String, String> {
+public class ReverseIndexer extends Job<String, String, String> {
 
     @Override
     public String toString() {
@@ -32,7 +32,8 @@ public class ReverseIndexer extends JobMapOnly<String, String> {
 
     @Override
     public void initMapReducer(MapReducer<String, String, String> p_mapReducer) {
-       //p_mapReducer.setMapOnly();
+        //p_mapReducer.setMapOnly();
+        //p_mapReducer.setStopOnFirstMap();
     }
 
     @Override

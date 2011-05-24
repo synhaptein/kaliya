@@ -17,11 +17,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 public abstract class Task<T> {
     public static ObjectMapper mapper = new ObjectMapper();
     protected String m_job;
+    protected String m_taskId;
     protected String m_key;
     protected T m_value;
 
-    public Task(String p_job, String p_key, T p_value) {
+    public Task(String p_job, String p_taskId, String p_key, T p_value) {
         m_job = p_job;
+        m_taskId = p_taskId;
         m_key = p_key;
         m_value = p_value;
     }

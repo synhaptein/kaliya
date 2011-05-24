@@ -14,8 +14,8 @@ import com.synhaptein.kaliya.core.worker.Worker;
  */
 
 public class MapTask<T> extends Task<T> {
-    public MapTask(String p_jobName, String p_key, T p_value) {
-        super(p_jobName, p_key, p_value);
+    public MapTask(String p_jobName, String p_taskIdId, String p_key, T p_value) {
+        super(p_jobName, p_taskIdId, p_key, p_value);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class MapTask<T> extends Task<T> {
         MapReduceRequest<T> request = new MapReduceRequest<T>();
         request.type = "MAP";
         request.job = m_job;
-        request.id = "uniqueIdTest";
+        request.id = m_taskId;
         request.key = m_key;
         request.value = m_value;
 

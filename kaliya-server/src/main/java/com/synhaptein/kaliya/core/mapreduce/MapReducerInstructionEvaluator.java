@@ -18,16 +18,19 @@ import org.codehaus.jackson.type.TypeReference;
 
 public class MapReducerInstructionEvaluator<Vint, Vout>
         extends InstructionEvaluator<MapReducerInstructionEvaluator.Instruction> {
-    MapReducer m_mapReducer;
+    MapReducer<?, Vint, Vout> m_mapReducer;
+    MapReducerListener<Vint, Vout> m_mapReducerListener;
     public enum Instruction {
         MAPRETURN,
         REDUCERETURN,
         ERROR;
     }
 
-    public MapReducerInstructionEvaluator(MapReducer p_mapReducer) {
-       super();
-       m_mapReducer = p_mapReducer;
+    public MapReducerInstructionEvaluator(MapReducer<?, Vint, Vout> p_mapReducer,
+                                          MapReducerListener<Vint, Vout> p_mapReducerListener) {
+        super();
+        m_mapReducer = p_mapReducer;
+        m_mapReducerListener = p_mapReducerListener;
     }
 
     private void setInstructions() {
@@ -41,12 +44,19 @@ public class MapReducerInstructionEvaluator<Vint, Vout>
         try {
             MapReduceResponse<Vint, Vout> response = Task.mapper.readValue(p_message.getMessage(),
                     new TypeReference<MapReduceResponse<Vint, Vout>>() {});
+            Worker worker = (Worker)p_message.getClient();
 
-            if("MAP".equals(response.type)) {
-                m_mapReducer.addFinishedMapper((Worker)p_message.getClient(), response.pairList);
+            if(response.id.equals(m_mapReducer.getIdJob())) {
+                if("MAP".equals(response.type) && !m_mapReducerListener.isMapFinished()) {
+                    m_mapReducer.addFinishedMapper((Worker)p_message.getClient(), response.pairList);
+                }
+                else if("REDUCE".equals(response.type)) {
+                    m_mapReducer.addFinishedReducer((Worker)p_message.getClient(), response.pair);
+                }
             }
-            else if("REDUCE".equals(response.type)) {
-                m_mapReducer.addFinishedReducer((Worker)p_message.getClient(), response.pair);
+
+            if(worker.getStatus() == Worker.Status.WORKING) {
+                m_mapReducer.release(worker);
             }
         }
         catch (Exception e) {
