@@ -58,7 +58,7 @@ public class Worker extends Client<WorkerServer> {
                 sReceived += tab[0];
                 if (tab[0] == '\0' && sReceived.length() > 1) {
                     this.m_communicationBuffer.put(new Message(this, sReceived));
-                    System.out.println(this.m_id + ": " + sReceived);
+                    //System.out.println(this.m_id + ": " + sReceived);
                     sReceived = "";
                 } else if (tab[0] == '\0') {
                     sReceived = "";

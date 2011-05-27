@@ -27,7 +27,7 @@ public class MapReducer<Vin, Vint, Vout> extends Thread {
     private WorkerServer m_server;
     private String m_jobName;
     private String m_jobId;
-    private Iterator<Map.Entry<String, Vin>> m_problemIterator;
+    private Iterator<Pair<String, Vin>> m_problemIterator;
     private Map<Worker, Task> m_currentTasks;
     //private List<Task> m_idleTasks;
     private Map<String, List<Vint>> m_groupBy;
@@ -39,7 +39,7 @@ public class MapReducer<Vin, Vint, Vout> extends Thread {
     private boolean m_listenerFinishedMap = false;
 
     public MapReducer(String p_jobName, String p_jobId, WorkerServer p_server,
-                      Iterator<Map.Entry<String, Vin>> p_problemIterator) {
+                      Iterator<Pair<String, Vin>> p_problemIterator) {
         setName("Kaliya-MapReducer");
         m_jobName = p_jobName;
         m_jobId = p_jobId;
@@ -57,8 +57,8 @@ public class MapReducer<Vin, Vint, Vout> extends Thread {
                 synchronized (this) {
                     boolean stop = false;
                     if(!isFinishedOnFirstMap()) {
-                        Map.Entry<String, Vin> pair = m_problemIterator.next();
-                        Task<Vin> task = new MapTask<Vin>(m_jobName, m_jobId, pair.getKey(), pair.getValue());
+                        Pair<String, Vin> pair = m_problemIterator.next();
+                        Task<Vin> task = new MapTask<Vin>(m_jobName, m_jobId, pair.key, pair.value);
                         m_currentTasks.put(worker, task);
                         worker.sendTask(task);
                     }

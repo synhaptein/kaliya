@@ -7,7 +7,7 @@ reverseIndexer.map = function(key, value) {
         ret.push({key:words[i], value:key});
     }
     return ret;
-}
+};
 
 reverseIndexer.reduce = function(intermediateKey, values) {
     var files = new Array();
@@ -19,7 +19,7 @@ reverseIndexer.reduce = function(intermediateKey, values) {
         files.push(file);
     }
     return {key:intermediateKey, value:files};
-}
+};
 
 function normalizeText(s) {
     s = s.toLowerCase();

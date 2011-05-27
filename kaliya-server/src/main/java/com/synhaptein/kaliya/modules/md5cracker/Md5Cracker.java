@@ -1,10 +1,10 @@
 package com.synhaptein.kaliya.modules.md5cracker;
 
-import com.synhaptein.kaliya.core.job.Job;
+import com.synhaptein.kaliya.core.job.JobMapOnly;
 import com.synhaptein.kaliya.core.mapreduce.MapReducer;
+import com.synhaptein.kaliya.core.mapreduce.Pair;
 
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Demo of a md5cracker algorithm
@@ -17,7 +17,7 @@ import java.util.Map;
  * @license       http://www.synhaptein.com/kaliya/license.html
  */
 
-public class Md5Cracker extends Job<String, String, String> {
+public class Md5Cracker extends JobMapOnly<char[], String> {
     private String m_encodeString;
 
     /**
@@ -40,16 +40,16 @@ public class Md5Cracker extends Job<String, String, String> {
 
     @Override
     public String getJobName() {
-        return "md5Cracker";
+        return "md5cracker";
     }
 
     @Override
-    public void initMapReducer(MapReducer<String, String, String> p_mapReducer) {
-        
+    public void initMapReducer(MapReducer<char[], String, String> p_mapReducer) {
+        p_mapReducer.setStopOnFirstMap();
     }
 
     @Override
-    public Iterator<Map.Entry<String, String>> getIterator() {
-        return null;
+    public Iterator<Pair<String, char[]>> getIterator() {
+        return new WordIterator(m_encodeString);
     }
 }

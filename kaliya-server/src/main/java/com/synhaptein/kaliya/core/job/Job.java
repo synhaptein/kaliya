@@ -7,7 +7,6 @@ import com.synhaptein.kaliya.core.worker.WorkerServer;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Abstraction of a job. To create a new module, extend this class.
@@ -121,7 +120,7 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
         return this.m_status;
     }
 
-    public abstract Iterator<Map.Entry<String, Vin>> getIterator();
+    public abstract Iterator<Pair<String, Vin>> getIterator();
 
     public void setResults(List<Pair<String, Vout>> p_results) {
         m_results = p_results;

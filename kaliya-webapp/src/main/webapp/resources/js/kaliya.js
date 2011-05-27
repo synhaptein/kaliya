@@ -27,7 +27,7 @@ function connectHandler() {
 
 function dataHandler(data) {
     var request = JSON.parse(data);
-    addtxt(data);
+    //addtxt(data);
     $.getScript("resources/js/" + request.job + ".js", function() {
         var job = eval(request.job);
         var response = new Object();

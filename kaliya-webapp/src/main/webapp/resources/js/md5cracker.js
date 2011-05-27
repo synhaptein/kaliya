@@ -1,3 +1,81 @@
+function md5cracker() {}
+
+md5cracker.FIRST = 48; // ascii '0'
+md5cracker.LAST = 122; // ascii 'z'
+md5cracker.CHUNKLENGTH = 3;
+
+md5cracker.map = function(key, value) {
+    var ret = [];
+    var it = new WordIterator(value == "" ? 0 : md5cracker.CHUNKLENGTH);
+
+    while (it.hasNext()) {
+        var word = it.next();
+        var md5hash = md5(value + word);
+        if(key == md5hash) {
+            addtxt(key + " = (\"" + value + word + "\")");
+            ret.push({"key":key, "value":value+word});
+            return ret;
+        }
+    }
+
+    return ret;
+};
+
+function WordIterator(size) {
+    this.size = size;
+    this.charList = new Array();
+    if(size > 0) {
+        for(var i = 0; i < size; ++i) {
+            this.charList.push(md5cracker.FIRST);
+        }
+        --this.charList[0];
+    }
+}
+
+WordIterator.prototype.hasNext = function() {
+    var hasNext = false;
+    if(this.charList.length == md5cracker.CHUNKLENGTH + 1) return false;
+    if(this.size == 0 && this.charList.length < md5cracker.CHUNKLENGTH) return true;
+    for(var i = this.charList.length - 1; i >= 0; --i) {
+        if(this.charList[i] != md5cracker.LAST) {
+            hasNext = true;
+        }
+    }
+    return hasNext;
+};
+
+WordIterator.prototype.next = function() {
+    var word = "";
+
+    this.increment(0);
+    for(var i = this.charList.length - 1; i >= 0; --i) {
+        word += itoa(this.charList[i]);
+    }
+
+    return word;
+};
+
+WordIterator.prototype.increment = function(index) {
+    if(index > this.charList.length - 1) {
+        this.charList.push(md5cracker.FIRST);
+    }
+    else if(this.charList[index] + 1 > md5cracker.LAST) {
+        this.charList[index] = md5cracker.FIRST;
+        this.increment(index + 1);
+    }
+    else {
+         ++this.charList[index];
+    }
+};
+
+function itoa(i) {
+   return String.fromCharCode(i);
+}
+
+function atoi(a) {
+   return a.charCodeAt();
+}
+
 function md5cycle(x, k) {
 var a = x[0], b = x[1], c = x[2], d = x[3];
 

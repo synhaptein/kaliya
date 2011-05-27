@@ -1,5 +1,9 @@
 package com.synhaptein.kaliya.modules.md5cracker;
 
+import com.synhaptein.kaliya.core.mapreduce.Pair;
+
+import java.util.Iterator;
+
 /**
  * The wordIterator generate word block for the clients.
  *
@@ -11,116 +15,56 @@ package com.synhaptein.kaliya.modules.md5cracker;
  * @license       http://www.synhaptein.com/kaliya/license.html
  */
 
-public class WordIterator {
-    private String list = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private byte[] charlist = new byte[list.length()];
-    private int max = 8;
-    private int[] word;
-    private int incr = 1;
-    private int num = 1;
-    
-    /**
-     * Construct a new word iterator to create list of word to test
-     * @param incr the increment to the create next word
-     * @param num the number of thread getting words
-     */
-    public WordIterator(int incr,int num){
-        this.incr = incr;
-        this.num = num;
-        init();
+public class WordIterator implements Iterator<Pair<String, char[]>> {
+    private final static char FIRST = '0';
+    private final static char LAST = 'z';
+    private String m_key;
+    private char[] m_charlist = new char[0];
+    private boolean m_emptyString = false;
+
+    public WordIterator(String p_key) {
+        m_key = p_key;
     }
-    
-    /**
-     * Contruct a new word iterator with defaut setting incr = 1 and num = 1
-     */
-    public WordIterator(){
-        init();
+
+    public boolean hasNext() {
+        return true;
     }
-    
-    /**
-     * Return the next word to next
-     * @return a word
-     */
-    public String next(){
-        incr(0);
-        return getString();
-    }
-    
-    /**
-     * Transform a number to a string
-     * @return a word
-     */
-    private String getString(){
-        StringBuilder s = new StringBuilder();
-        for(int i=0;i<word.length;++i){
-            if(word[i] == -1)
-                break;
-            else
-                s.append(list.charAt(word[i]));
+
+    public Pair<String, char[]> next() {
+        if(m_emptyString) {
+            incr(m_charlist.length - 1);
         }
-        return s.toString();
+        else {
+            m_emptyString = true;
+        }
+        Pair<String, char[]> pair = new Pair<String, char[]>();
+        pair.key = m_key;
+        pair.value = m_charlist;
+        return pair;
     }
-    
-    /**
-     * Add the incr to the byte array
-     * @param index in the byte array
-     */
-    private void incr(int index){
-        int tmp = word[index];
-        if(tmp+incr >= charlist.length){
-            if(!(index >= word.length)){
-                incr(index+1);
-                if(index == 0)
-                    word[index] = num-1;
-                else
-                    word[index] = 0;
-            }
-        } else {
-            word[index] += incr;
+
+    private void incr(int p_index) {
+        if(p_index == -1) {
+            increaseArray();
+        }
+        else if(m_charlist[p_index] + 1 > LAST) {
+            m_charlist[p_index] = FIRST;
+            incr(p_index - 1);
+        }
+        else {
+            ++m_charlist[p_index];
         }
     }
 
-    /**
-     * Initialized the word iterator
-     */
-    private void init(){
-        word = new int[max];
-        for(int i = 0;i<list.length();++i){
-            charlist[i] = (""+list.charAt(i)).getBytes()[0];
+    private void increaseArray() {
+        char[] charlist = new char[m_charlist.length + 1];
+        for(int i = charlist.length - 1; i != 0; --i) {
+            charlist[i] = m_charlist[i-1];
         }
-        for(int i=0;i<word.length;++i){
-            word[i] = -1;
-        }
-        word[0] = num - incr - 1;
-        for(int i = 0;i<list.length();++i){
-            int j = (int)(Math.random()*list.length());
-            int k = (int)(Math.random()*list.length());
-            swap(j,k);
-        }
-    }
-    
-    /**
-     * Swap to char in an array
-     * @param a first char
-     * @param b second char
-     */
-    private void swap(int a, int b){
-        byte tmp = charlist[a];
-        charlist[a] = charlist[b];
-        charlist[b] = tmp;
+        charlist[0] = FIRST;
+        m_charlist = charlist;
     }
 
-    private String getNextBlock() {
-        StringBuilder result = new StringBuilder();
-        result.append("[");
-        for (int i = 0; i < 999; ++i) {
-            result.append("\"");
-            //result.append(this.m_wordIterator.next());
-            result.append("\",");
-        }
-        result.append("\"");
-        //result.append(this.m_wordIterator.next());
-        result.append("\"]");
-        return result.toString();
+    public void remove() {
     }
 }

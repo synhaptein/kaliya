@@ -2,10 +2,11 @@ package com.synhaptein.kaliya.modules.reverseIndexer;
 
 import com.synhaptein.kaliya.core.job.Job;
 import com.synhaptein.kaliya.core.mapreduce.MapReducer;
+import com.synhaptein.kaliya.core.mapreduce.Pair;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Demo of a reverse index algorithm.
@@ -37,15 +38,38 @@ public class ReverseIndexer extends Job<String, String, String> {
     }
 
     @Override
-    public Iterator<Map.Entry<String, String>> getIterator() {
-        Map<String, String> texts = new HashMap<String ,String>();
-        texts.put("fichier1", "The quick brown fox jumped over the lazy grey dogs.");
-        texts.put("fichier2", "That's one small step for a man, one giant leap for mankind.");
-        texts.put("fichier3", "Mary had a little lamb, Its fleece was white as snow; And everywhere that Mary went, The lamb was sure to go.");
-        texts.put("fichier4", "The quick brown fox jumped over the lazy grey dogs.");
-        texts.put("fichier5", "That's one small step for a man, one giant leap for mankind.");
-        texts.put("fichier6", "Mary had a little lamb, Its fleece was white as snow; And everywhere that Mary went, The lamb was sure to go.");
+    public Iterator<Pair<String, String>> getIterator() {
+        List<Pair<String, String>> texts = new ArrayList<Pair<String, String>>();
+        Pair<String, String> pair = new Pair<String, String>();
+        pair.key = "fichier1";
+        pair.value = "The quick brown fox jumped over the lazy grey dogs.";
+        texts.add(pair);
 
-        return texts.entrySet().iterator();
+        pair = new Pair<String, String>();
+        pair.key = "fichier2";
+        pair.value = "That's one small step for a man, one giant leap for mankind.";
+        texts.add(pair);
+
+        pair = new Pair<String, String>();
+        pair.key = "fichier3";
+        pair.value = "The quick brown fox jumped over the lazy grey dogs.";
+        texts.add(pair);
+
+        pair = new Pair<String, String>();
+        pair.key = "fichier4";
+        pair.value = "Mary had a little lamb, Its fleece was white as snow; And everywhere that Mary went, The lamb was sure to go.";
+        texts.add(pair);
+
+        pair = new Pair<String, String>();
+        pair.key = "fichier5";
+        pair.value = "That's one small step for a man, one giant leap for mankind.";
+        texts.add(pair);
+
+        pair = new Pair<String, String>();
+        pair.key = "fichier6";
+        pair.value = "Mary had a little lamb, Its fleece was white as snow; And everywhere that Mary went, The lamb was sure to go.";
+        texts.add(pair);
+
+        return texts.iterator();
     }
 }
