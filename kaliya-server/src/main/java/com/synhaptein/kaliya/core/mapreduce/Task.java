@@ -28,5 +28,21 @@ public abstract class Task<T> {
         m_value = p_value;
     }
 
-    public abstract void writeTask(Worker p_worder);
+    protected abstract void setType(MapReduceRequest<T> p_mapReduceRequest);
+
+    public void writeTask(Worker p_worker) {
+        MapReduceRequest<T> request = new MapReduceRequest<T>();
+        setType(request);
+        request.job = m_job;
+        request.id = m_taskId;
+        request.key = m_key;
+        request.value = m_value;
+
+        try {
+            p_worker.sendMsg(mapper.writeValueAsString(request));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

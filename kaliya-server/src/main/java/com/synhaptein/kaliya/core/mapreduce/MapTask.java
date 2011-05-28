@@ -19,19 +19,7 @@ public class MapTask<T> extends Task<T> {
     }
 
     @Override
-    public void writeTask(Worker p_worker) {
-        MapReduceRequest<T> request = new MapReduceRequest<T>();
-        request.type = "MAP";
-        request.job = m_job;
-        request.id = m_taskId;
-        request.key = m_key;
-        request.value = m_value;
-
-        try {
-            p_worker.sendMsg(mapper.writeValueAsString(request));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+    protected void setType(MapReduceRequest<T> p_mapReduceRequest) {
+        p_mapReduceRequest.type = "MAP";
     }
 }
