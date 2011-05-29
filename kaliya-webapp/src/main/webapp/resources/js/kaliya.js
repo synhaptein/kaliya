@@ -9,7 +9,7 @@ function addtxt(input) {
 }
 
 window.onload = function() {
-    addtxt("Init...");
+    addtxt("Working...");
     JSocket.init('resources/flash/jSocket.swf', function () {
        socket = new JSocket({
            connectHandler: connectHandler,
@@ -26,22 +26,26 @@ function connectHandler() {
 }
 
 function dataHandler(data) {
-    var request = JSON.parse(data);
-    //addtxt(data);
-    $.getScript("resources/js/" + request.job + ".js", function() {
-        var job = eval(request.job);
-        var response = new Object();
-        response.id = request.id;
-        response.type = request.type;
-        response.job = request.job;
-        if(request.type == "MAP") {
-            response.pairList = job.map(request.key, request.value);
-        }
-        else {
-            response.pair = job.reduce(request.key, request.value);
-        }
-        socket.writeFlush(JSON.stringify(response)+"\0");
-    });
+    try {
+        var request = JSON.parse(data);
+        $.getScript("resources/js/" + request.job + ".js", function() {
+            var job = eval(request.job);
+            var response = new Object();
+            response.id = request.id;
+            response.type = request.type;
+            response.job = request.job;
+            if(request.type == "MAP") {
+                response.pairList = job.map(request.key, request.value);
+            }
+            else {
+                response.pair = job.reduce(request.key, request.value);
+            }
+            socket.writeFlush(JSON.stringify(response)+"\0");
+        });
+    }
+    catch(e) {
+        addtxt(data);
+    }
 }
 
 function closeHandler() {

@@ -3,7 +3,7 @@ package com.synhaptein.kaliya.controller
 import com.synhaptein.scalator.views.{Scalate, View}
 import com.synhaptein.scalator.controllers.Controller
 import com.synhaptein.kaliya.listener.KaliyaServerListener
-import com.synhaptein.kaliya.core.Information
+import com.synhaptein.kaliya.core.{KaliyaLogger, Information}
 
 /**
  * Render management console
@@ -22,7 +22,8 @@ class Console extends Controller {
     view.addObjects(
       "lstJobs" -> KaliyaServerListener.kaliyaServer.getJobScheduler.getJobList,
       "mapParamsConf" -> Information.getParameterMap,
-      "mapClients" -> KaliyaServerListener.kaliyaServer.getWorkerServer.getClientList)
+      "mapClients" -> KaliyaServerListener.kaliyaServer.getWorkerServer.getClientList,
+      "messagesConsole" -> KaliyaLogger.getMessages)
     view
   }
 }

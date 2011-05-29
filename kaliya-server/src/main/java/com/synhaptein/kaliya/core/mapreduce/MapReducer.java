@@ -1,5 +1,6 @@
 package com.synhaptein.kaliya.core.mapreduce;
 
+import com.synhaptein.kaliya.core.KaliyaLogger;
 import com.synhaptein.kaliya.core.worker.Worker;
 import com.synhaptein.kaliya.core.worker.WorkerServer;
 
@@ -80,7 +81,7 @@ public class MapReducer<Vin, Vint, Vout> extends Thread {
                 synchronized (LOCKMAP) {
                     if(!m_listenerFinishedMap) {
                         m_listenerFinishedMap = true;
-                        System.out.println("Waiting to reduce...");
+                        KaliyaLogger.logAdmin("Waiting to reduce...");
                         LOCKMAP.wait();
                     }
                 }
@@ -102,7 +103,7 @@ public class MapReducer<Vin, Vint, Vout> extends Thread {
             }
         }
         catch (InterruptedException e) {}
-        System.out.println("MapReducer is finished.");
+        KaliyaLogger.logAdmin("MapReducer is finished.");
     }
 
     public boolean isFinishedOnFirstMap() {
@@ -189,9 +190,5 @@ public class MapReducer<Vin, Vint, Vout> extends Thread {
 
     public List<Pair<String, Vout>> getResults() {
         return m_results;
-    }
-
-    public void stopMapReduce() {
-        interrupt();
     }
 }

@@ -1,6 +1,7 @@
 package com.synhaptein.kaliya;
 
 import com.synhaptein.kaliya.core.Information;
+import com.synhaptein.kaliya.core.KaliyaLogger;
 import com.synhaptein.kaliya.core.job.JobScheduler;
 import com.synhaptein.kaliya.core.worker.WorkerServer;
 import com.synhaptein.kaliya.modules.md5cracker.Md5Cracker;
@@ -25,6 +26,7 @@ public class KaliyaServer {
 
         // Initialisation of the services
         m_workerServer = new WorkerServer(Integer.valueOf(Information.getParameter("workerPort")));
+        KaliyaLogger.init(m_workerServer);
         m_jobScheduler = new JobScheduler(m_workerServer);
         //new ClientKeepAlive(this.m_workerServer);
 

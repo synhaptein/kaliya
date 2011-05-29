@@ -1,11 +1,13 @@
 package com.synhaptein.kaliya.core.worker;
 
 import com.synhaptein.kaliya.core.Client;
+import com.synhaptein.kaliya.core.KaliyaLogger;
 import com.synhaptein.kaliya.core.Message;
 import com.synhaptein.kaliya.core.mapreduce.Task;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -41,7 +43,7 @@ public class Worker extends Client<WorkerServer> {
             m_id = "Node" + p_server.getClientCount();
             m_server.addClient(this);
             
-            System.out.println(m_id + " connected");
+            KaliyaLogger.logAdmin(m_id + " connected");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,17 +60,18 @@ public class Worker extends Client<WorkerServer> {
                 sReceived += tab[0];
                 if (tab[0] == '\0' && sReceived.length() > 1) {
                     m_communicationBuffer.put(new Message(this, sReceived));
-                    //System.out.println(m_id + ": " + sReceived);
                     sReceived = "";
                 } else if (tab[0] == '\0') {
                     sReceived = "";
                 }
             }
-        } catch (IOException e) {
+        }
+        catch (SocketException e) {}
+        catch (IOException e) {
             e.printStackTrace();
-        } finally {
+        }
+        finally {
             m_server.removeClient(this);
-            System.out.println(m_id + " deconnected " + m_server.getClientCount());
         }
     }
 

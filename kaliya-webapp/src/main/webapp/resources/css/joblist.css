@@ -12,6 +12,7 @@ body {
 	float:left;
 	width:70%;
 	background:#fff;
+    padding-bottom: 30px;
 }
 
 #right {
@@ -19,6 +20,12 @@ body {
 	width: 30%;
 	background:#fff;
 }
+
+#console {
+    width: 90%;
+    height: 200px;
+}
+
 table { 
 	border-collapse: collapse; 
 	border: 1px solid #0A1B2A; 

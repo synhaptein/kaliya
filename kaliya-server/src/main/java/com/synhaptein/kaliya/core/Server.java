@@ -2,7 +2,9 @@ package com.synhaptein.kaliya.core;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -70,7 +72,7 @@ public abstract class Server extends Thread {
                 ioe.printStackTrace();
             }
         }
-        System.out.println("Server is stopped.");
+        KaliyaLogger.logAdmin("Server is stopped.");
     }
     
     /**
@@ -144,8 +146,14 @@ public abstract class Server extends Thread {
             m_serverSocket.close();
             interrupt();
             join();
+            List<Client> clientList = new ArrayList<Client>(m_clientList.values());
+            for(Client client : clientList) {
+                client.closeConnection();
+            }
             m_threadPool.shutdownNow();
         }
-        catch (Exception e) {}
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

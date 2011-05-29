@@ -1,6 +1,7 @@
 package com.synhaptein.kaliya.core.worker;
 
 import com.synhaptein.kaliya.core.Information;
+import com.synhaptein.kaliya.core.KaliyaLogger;
 import com.synhaptein.kaliya.core.Message;
 
 import java.io.*;
@@ -56,7 +57,7 @@ public class Handler {
 		// Check if we get a security request
 		if (isSecurityRequest) {
 			if (Information.isDebug()) {
-				System.out.println("Sending crossdomain.xml");
+                KaliyaLogger.logAdmin("Sending crossdomain.xml");
 			}
 
 			DataInputStream dis = new DataInputStream(new ByteArrayInputStream(Information.getCrossDomain().getBytes()));

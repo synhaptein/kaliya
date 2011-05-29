@@ -99,7 +99,6 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
         m_mapReducer.join();
         m_mapReducerListener.join();
         setResults(m_mapReducer.getResults());
-        System.out.println("Job " + m_jobId + " is finished.");
     }
 
     /**

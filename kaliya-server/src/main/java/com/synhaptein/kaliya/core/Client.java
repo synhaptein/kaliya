@@ -75,7 +75,7 @@ public abstract class Client<T> implements Runnable {
             runClient();
         }
         catch (InterruptedException e) {}
-        System.out.println("Disconnecting client: " + getIdClient());
+        KaliyaLogger.logAdmin("Disconnecting client: " + getIdClient());
     }
 
     /**
@@ -110,7 +110,7 @@ public abstract class Client<T> implements Runnable {
             m_readerIn.close();
             m_writerOut.close();
         } catch (Exception e) {
-            System.out.println("Error while removing client : " + getIdClient());
+            KaliyaLogger.logAdmin("Error while removing client : " + getIdClient());
         }
     }
 }

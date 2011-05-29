@@ -1,6 +1,7 @@
 <%@ val lstJobs: java.util.List[com.synhaptein.kaliya.core.job.Job[_,_,_]] %>
 <%@ val mapParamsConf: java.util.Map[String, String] %>
 <%@ val mapClients: java.util.Map[String, com.synhaptein.kaliya.core.Client[_]] %>
+<%@ val messagesConsole: java.util.List[String] %>
 <% var idx = 0 %>
 <html>
 <head>
@@ -77,7 +78,16 @@
     </tfoot>
 </table>
 <h2>Installed Demo</h2>
-<div id="demos">MD5 Cracker</div>
+<div id="demos">
+MD5 Cracker <br/>
+Reverse Indexer
+</div>
+<h2>Logs</h2>
+<textarea id="console" readonly="readonly">
+#foreach(message <- messagesConsole)
+> ${message}
+#end
+</textarea>
 </div>
 <div id="right">
 <h2>Client List</h2>

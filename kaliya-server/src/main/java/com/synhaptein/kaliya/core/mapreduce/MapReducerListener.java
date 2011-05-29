@@ -2,6 +2,7 @@ package com.synhaptein.kaliya.core.mapreduce;
 
 import com.synhaptein.kaliya.core.Client;
 import com.synhaptein.kaliya.core.InstructionEvaluator;
+import com.synhaptein.kaliya.core.KaliyaLogger;
 import com.synhaptein.kaliya.core.Message;
 import com.synhaptein.kaliya.core.worker.WorkerServer;
 
@@ -53,9 +54,10 @@ public class MapReducerListener<Vint, Vout> extends Thread {
                     }
                 }
             }
+
         }
         catch (InterruptedException e) {}
-        System.out.println("MapReducerListener is finished.");
+        KaliyaLogger.logAdmin("MapReducerListener is finished.");
     }
 
     private boolean isMappingFinished() {
@@ -73,9 +75,5 @@ public class MapReducerListener<Vint, Vout> extends Thread {
 
     public boolean isMapFinished() {
         return m_isMapFinished;
-    }
-
-    public void stopListener() {
-        interrupt();
     }
 }

@@ -1,5 +1,6 @@
 package com.synhaptein.kaliya.core.job;
 
+import com.synhaptein.kaliya.core.KaliyaLogger;
 import com.synhaptein.kaliya.core.worker.WorkerServer;
 
 import java.util.Collections;
@@ -60,11 +61,12 @@ public class JobScheduler extends Thread {
                 m_runningJob.runJob(m_server);
                 m_jobListDone.add(m_runningJob);
                 m_runningJob.setStatus(Job.JobStatus.FINISHED);
+                KaliyaLogger.log("Job " + m_runningJob.getJobId() + " is finished.");
                 m_runningJob = null;
             }
         }
         catch (InterruptedException iex) {}
-        System.out.println("Job Scheduler is stopped.");
+        KaliyaLogger.logAdmin("Job Scheduler is stopped.");
     }
     
     /**
