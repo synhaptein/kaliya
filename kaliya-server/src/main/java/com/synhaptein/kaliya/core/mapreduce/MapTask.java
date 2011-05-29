@@ -1,7 +1,5 @@
 package com.synhaptein.kaliya.core.mapreduce;
 
-import com.synhaptein.kaliya.core.worker.Worker;
-
 /**
  * The Map task that shape a request and send it to workers.
  *
