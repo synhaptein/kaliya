@@ -4,6 +4,7 @@
 		<script type="text/javascript" src="resources/js/toolbox.flashembed.min.js"></script>
 		<script type="text/javascript" src="resources/js/jSocket.js"></script>
 		<script type="text/javascript" src="resources/js/kaliya.js"></script>
+		<title>Kaliya Worker Console</title>
 	</head>
 	<body>
         <h1>Client</h1>
