@@ -29,25 +29,19 @@ public class WorkerServer extends Server {
      */
     public WorkerServer(int p_port) {
         super(p_port);
-        this.m_threadPool = Executors.newFixedThreadPool(Integer.valueOf(Information.getParameter("workerThreadPoolSize")));
-        try {
-            this.m_thread = new Thread(this);
-            this.m_thread.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        m_threadPool = Executors.newFixedThreadPool(Integer.valueOf(Information.getParameter("workerThreadPoolSize")));
+        start();
     }
 
     /**
      * Add the clients to the thread pool when they connect
      */
     public void runServer() throws InterruptedException {
-            while (!this.m_thread.isInterrupted()) {
+            while (!isInterrupted()) {
                 try {
-                    new Handler(this, this.m_threadPool, this.m_serverSocket.accept(), this.m_communicationBuffer);
+                    new Handler(this, m_threadPool, m_serverSocket.accept(), m_communicationBuffer);
                 }
                 catch (IOException iox) {
-                    //iox.printStackTrace();
                     break;
                 }
             }

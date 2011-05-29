@@ -74,4 +74,8 @@ public class MapReducerListener<Vint, Vout> extends Thread {
     public boolean isMapFinished() {
         return m_isMapFinished;
     }
+
+    public void stopListener() {
+        interrupt();
+    }
 }

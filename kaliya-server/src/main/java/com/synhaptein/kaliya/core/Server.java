@@ -29,10 +29,6 @@ public abstract class Server extends Thread {
      */
     protected ServerSocket m_serverSocket;
     /**
-     * Server thread
-     */
-    protected volatile Thread m_thread;
-    /**
      * The communication queue that contains the message from the clients
      */
     protected BlockingQueue<Message> m_communicationBuffer;
@@ -48,10 +44,10 @@ public abstract class Server extends Thread {
      */
     public Server(int p_port) {
         super("Kaliya-Server");
-        this.m_clientList = new LinkedHashMap<String, Client>();
-        this.m_communicationBuffer = new LinkedBlockingQueue<Message>();
+        m_clientList = new LinkedHashMap<String, Client>();
+        m_communicationBuffer = new LinkedBlockingQueue<Message>();
         try {
-            this.m_serverSocket = new ServerSocket(p_port);
+            m_serverSocket = new ServerSocket(p_port);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -68,7 +64,7 @@ public abstract class Server extends Thread {
         }
         catch (InterruptedException iex) {
             try {
-                this.m_serverSocket.close();
+                m_serverSocket.close();
             }
             catch (IOException ioe) {
                 ioe.printStackTrace();
@@ -82,7 +78,7 @@ public abstract class Server extends Thread {
      * @return a client list
      */
     public Map<String, Client> getClientList() {
-        return this.m_clientList;
+        return m_clientList;
     }
     
     /**
@@ -91,7 +87,7 @@ public abstract class Server extends Thread {
      * @return the communication buffer
      */
     public BlockingQueue<Message> getCommunicationBuffer() {
-        return this.m_communicationBuffer;
+        return m_communicationBuffer;
     }
     
     /**
@@ -99,7 +95,7 @@ public abstract class Server extends Thread {
      * @return client count
      */
     public int getClientCount() {
-        return this.m_clientList.size();
+        return m_clientList.size();
     }
     
     /**
@@ -107,14 +103,14 @@ public abstract class Server extends Thread {
      * @param p_client a client
      */
     public void addClient(Client p_client) {
-        this.m_clientList.put(p_client.getIdClient(), p_client);
+        m_clientList.put(p_client.getIdClient(), p_client);
     }
     
     /**
      * Clear the communication buffer
      */
     public void clearCommunicationBuffer() {
-    	this.m_communicationBuffer.clear();
+    	m_communicationBuffer.clear();
     }
     
     /**
@@ -122,7 +118,7 @@ public abstract class Server extends Thread {
      * @param p_client a client
      */
     public void removeClient(Client p_client) {
-        this.m_clientList.remove(p_client.getIdClient());
+        m_clientList.remove(p_client.getIdClient());
         p_client.closeConnection();
     }
 
@@ -132,7 +128,7 @@ public abstract class Server extends Thread {
      */
     public void sendAllMsg(String sMsg) {
         try {
-            for (Client c : this.m_clientList.values()) {
+            for (Client c : m_clientList.values()) {
                 c.sendMsg(sMsg);
             }
         } catch (Exception e) {
@@ -144,13 +140,11 @@ public abstract class Server extends Thread {
      * Stop the server
      */
     public void stopServer() {
-        this.m_threadPool.shutdownNow();
-        for(Client client : this.m_clientList.values()) {
-            this.removeClient(client);
-        }
-        this.m_thread.interrupt();
         try {
-            this.m_serverSocket.close();
+            m_serverSocket.close();
+            interrupt();
+            join();
+            m_threadPool.shutdownNow();
         }
         catch (Exception e) {}
     }

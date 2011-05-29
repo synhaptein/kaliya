@@ -47,10 +47,10 @@ public abstract class Client<T> implements Runnable {
      */
     public Client(T p_server, Socket p_socket) {
         try {
-            this.m_socket = p_socket;
-            this.m_server = p_server;
-            this.m_readerIn = new BufferedReader(new InputStreamReader(p_socket.getInputStream()));
-            this.m_writerOut = new PrintWriter(p_socket.getOutputStream());
+            m_socket = p_socket;
+            m_server = p_server;
+            m_readerIn = new BufferedReader(new InputStreamReader(p_socket.getInputStream()));
+            m_writerOut = new PrintWriter(p_socket.getOutputStream());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,7 +61,7 @@ public abstract class Client<T> implements Runnable {
      * @return The client id
      */
     public String getIdClient() {
-        return this.m_id;
+        return m_id;
     }
     
     /**
@@ -72,10 +72,10 @@ public abstract class Client<T> implements Runnable {
 
     public void run() {
         try {
-            this.runClient();
+            runClient();
         }
         catch (InterruptedException e) {}
-        System.out.println("Disconnecting client: " + this.getIdClient());
+        System.out.println("Disconnecting client: " + getIdClient());
     }
 
     /**
@@ -83,7 +83,7 @@ public abstract class Client<T> implements Runnable {
      * @return The client's ip
      */
     public String getIp() {
-        String ip = ("" + this.m_socket.getRemoteSocketAddress()).split(":")[0];
+        String ip = ("" + m_socket.getRemoteSocketAddress()).split(":")[0];
         return ip.substring(1, ip.length());
     }
 
@@ -106,11 +106,11 @@ public abstract class Client<T> implements Runnable {
      */
     public synchronized void closeConnection() {
         try {
-            this.m_socket.close();
-            this.m_readerIn.close();
-            this.m_writerOut.close();
+            m_socket.close();
+            m_readerIn.close();
+            m_writerOut.close();
         } catch (Exception e) {
-            System.out.println("Error while removing client : " + this.getIdClient());
+            System.out.println("Error while removing client : " + getIdClient());
         }
     }
 }

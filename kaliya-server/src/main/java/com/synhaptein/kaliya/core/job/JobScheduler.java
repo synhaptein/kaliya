@@ -30,10 +30,10 @@ public class JobScheduler extends Thread {
      */
     public JobScheduler(WorkerServer p_server) {
         super("Kaliya-JobScheduler");
-        this.m_jobList = new LinkedBlockingQueue<Job>();
-        this.m_jobListDone = Collections.synchronizedList(new LinkedList<Job>());
+        m_jobList = new LinkedBlockingQueue<Job>();
+        m_jobListDone = Collections.synchronizedList(new LinkedList<Job>());
         m_server = p_server;
-        this.start();
+        start();
     }
     
     /**
@@ -42,7 +42,7 @@ public class JobScheduler extends Thread {
      */
     public void addJob(Job p_job) {
         try {
-            this.m_jobList.put(p_job);
+            m_jobList.put(p_job);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,10 +55,10 @@ public class JobScheduler extends Thread {
     public void run() {
         try {
             while(!isInterrupted()) {
-                m_runningJob = this.m_jobList.take();
+                m_runningJob = m_jobList.take();
                 m_runningJob.setStatus(Job.JobStatus.RUNNING);
                 m_runningJob.runJob(m_server);
-                m_jobListDone.add(this.m_runningJob);
+                m_jobListDone.add(m_runningJob);
                 m_runningJob.setStatus(Job.JobStatus.FINISHED);
                 m_runningJob = null;
             }
@@ -73,20 +73,24 @@ public class JobScheduler extends Thread {
      */
     public List<Job> getJobList() {
         List<Job> jobList = new LinkedList<Job>();
-        if(this.m_runningJob != null){
-        	jobList.add(this.m_runningJob);
+        if(m_runningJob != null){
+        	jobList.add(m_runningJob);
         }
-        jobList.addAll(this.m_jobList);
-        jobList.addAll(this.m_jobListDone);
+        jobList.addAll(m_jobList);
+        jobList.addAll(m_jobListDone);
         
         return jobList;
     }
 
     public void stopJobScheduler() {
-        if(this.m_runningJob != null) {
-            //this.m_runningJob.stopJob();
+        if(m_runningJob != null) {
+            m_runningJob.stopJob();
         }
-        this.interrupt();
+        interrupt();
+        try {
+            join();
+        }
+        catch (InterruptedException e) {}
     }
     
 }

@@ -190,4 +190,8 @@ public class MapReducer<Vin, Vint, Vout> extends Thread {
     public List<Pair<String, Vout>> getResults() {
         return m_results;
     }
+
+    public void stopMapReduce() {
+        interrupt();
+    }
 }

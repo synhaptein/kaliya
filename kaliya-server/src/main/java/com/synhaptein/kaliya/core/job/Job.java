@@ -49,6 +49,8 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
     private JobStatus m_status = JobStatus.WAITING;
     private int m_jobId;
     private List<Pair<String, Vout>> m_results;
+    private MapReducer<Vin, Vint, Vout> m_mapReducer;
+    private MapReducerListener<Vint, Vout> m_mapReducerListener;
     protected boolean m_mapOnly = false;
     
     /**
@@ -56,14 +58,14 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
      * @param p_jobId id of the job
      */
     public Job(int p_jobId) {
-        this.m_jobId = p_jobId;
+        m_jobId = p_jobId;
     }
     
     /**
      * Construct a new job for a specific server
      */
     public Job() {
-        this.m_jobId = JobIdGenerator.getNextId();
+        m_jobId = JobIdGenerator.getNextId();
     }
     
     /**
@@ -71,7 +73,7 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
      * @param p_status job status
      */
     public void setStatus(JobStatus p_status) {
-        this.m_status = p_status;
+        m_status = p_status;
     }
     
     /**
@@ -86,21 +88,17 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
     public abstract void initMapReducer(MapReducer<Vin, Vint, Vout> p_mapReducer);
 
     public void runJob(WorkerServer p_server) throws InterruptedException {
-        MapReducer<Vin, Vint, Vout> mapReducer =
-                new MapReducer<Vin, Vint, Vout>(getJobName(), String.valueOf(m_jobId), p_server, getIterator());
+        m_mapReducer = new MapReducer<Vin, Vint, Vout>(getJobName(), String.valueOf(m_jobId), p_server, getIterator());
         if(m_mapOnly) {
-            mapReducer.setMapOnly();
+            m_mapReducer.setMapOnly();
         }
-        initMapReducer(mapReducer);
-        MapReducerListener<Vint, Vout> mapReducerListener = new MapReducerListener<Vint, Vout>(mapReducer, p_server);
-        mapReducerListener.start();
-        mapReducer.start();
-        try {
-            mapReducer.join();
-            mapReducerListener.join();
-        }
-        catch (InterruptedException e) {}
-        setResults(mapReducer.getResults());
+        initMapReducer(m_mapReducer);
+        m_mapReducerListener = new MapReducerListener<Vint, Vout>(m_mapReducer, p_server);
+        m_mapReducerListener.start();
+        m_mapReducer.start();
+        m_mapReducer.join();
+        m_mapReducerListener.join();
+        setResults(m_mapReducer.getResults());
         System.out.println("Job " + m_jobId + " is finished.");
     }
 
@@ -109,7 +107,7 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
      * @return job id
      */
     public int getJobId() {
-        return this.m_jobId;
+        return m_jobId;
     }
     
     /**
@@ -117,7 +115,7 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
      * @return
      */
     public JobStatus getStatus() {
-        return this.m_status;
+        return m_status;
     }
 
     public abstract Iterator<Pair<String, Vin>> getIterator();
@@ -128,5 +126,15 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
 
     public List<Pair<String, Vout>> getResults() {
         return m_results;
+    }
+
+    public void stopJob() {
+        m_mapReducer.interrupt();
+        m_mapReducerListener.interrupt();
+        try {
+            m_mapReducer.join();
+            m_mapReducerListener.join();
+        }
+        catch (InterruptedException e) {}
     }
 }

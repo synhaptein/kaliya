@@ -37,11 +37,11 @@ public class Worker extends Client<WorkerServer> {
     public Worker(WorkerServer p_server, Socket p_socket, BlockingQueue<Message> p_communicationBuffer) {
         super(p_server, p_socket);
         try {
-            this.m_communicationBuffer = p_communicationBuffer;
-            this.m_id = "Node" + p_server.getClientCount();
-            this.m_server.addClient(this);
+            m_communicationBuffer = p_communicationBuffer;
+            m_id = "Node" + p_server.getClientCount();
+            m_server.addClient(this);
             
-            System.out.println(this.m_id + " connected");
+            System.out.println(m_id + " connected");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,11 +54,11 @@ public class Worker extends Client<WorkerServer> {
         try {
             String sReceived = "";
             char[] tab = new char[1];
-            while (this.m_readerIn.read(tab, 0, 1) != -1) {
+            while (m_readerIn.read(tab, 0, 1) != -1) {
                 sReceived += tab[0];
                 if (tab[0] == '\0' && sReceived.length() > 1) {
-                    this.m_communicationBuffer.put(new Message(this, sReceived));
-                    //System.out.println(this.m_id + ": " + sReceived);
+                    m_communicationBuffer.put(new Message(this, sReceived));
+                    //System.out.println(m_id + ": " + sReceived);
                     sReceived = "";
                 } else if (tab[0] == '\0') {
                     sReceived = "";
@@ -67,8 +67,8 @@ public class Worker extends Client<WorkerServer> {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            this.m_server.removeClient(this);
-            System.out.println(this.m_id + " deconnected " + this.m_server.getClientCount());
+            m_server.removeClient(this);
+            System.out.println(m_id + " deconnected " + m_server.getClientCount());
         }
     }
 
