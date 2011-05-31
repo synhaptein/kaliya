@@ -12,7 +12,6 @@ md5cracker.map = function(key, value) {
         var word = it.next();
         var md5hash = md5(value + word);
         if(key == md5hash) {
-            addtxt(key + " = (\"" + value + word + "\")");
             ret.push({"key":key, "value":value+word});
             return ret;
         }

@@ -48,7 +48,7 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
     
     private JobStatus m_status = JobStatus.WAITING;
     private int m_jobId;
-    private List<Pair<String, Vout>> m_results;
+    protected List<Pair<String, Vout>> m_results;
     private MapReducer<Vin, Vint, Vout> m_mapReducer;
     private MapReducerListener<Vint, Vout> m_mapReducerListener;
     protected boolean m_mapOnly = false;
@@ -126,6 +126,8 @@ public abstract class Job<Vin, Vint, Vout> extends Thread {
     public List<Pair<String, Vout>> getResults() {
         return m_results;
     }
+
+    public abstract String resultsToString();
 
     public void stopJob() {
         m_mapReducer.interrupt();

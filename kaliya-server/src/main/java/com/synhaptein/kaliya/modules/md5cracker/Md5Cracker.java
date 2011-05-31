@@ -52,4 +52,13 @@ public class Md5Cracker extends JobMapOnly<char[], String> {
     public Iterator<Pair<String, char[]>> getIterator() {
         return new WordIterator(m_encodeString);
     }
+
+    @Override
+    public String resultsToString() {
+        if(getStatus() == JobStatus.FINISHED) {
+            Pair<String, String> pair = m_results.get(0);
+            return "md5(\"" + pair.value + "\") = \"" + pair.key + "\"";
+        }
+        return "";
+    }
 }

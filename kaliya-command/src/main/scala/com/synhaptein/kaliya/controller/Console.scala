@@ -1,9 +1,9 @@
 package com.synhaptein.kaliya.controller
 
-import com.synhaptein.scalator.views.{Scalate, View}
 import com.synhaptein.scalator.controllers.Controller
 import com.synhaptein.kaliya.listener.KaliyaServerListener
 import com.synhaptein.kaliya.core.{KaliyaLogger, Information}
+import com.synhaptein.scalator.views.{View, Scalate}
 
 /**
  * Render management console
@@ -23,7 +23,16 @@ class Console extends Controller {
       "lstJobs" -> KaliyaServerListener.kaliyaServer.getJobScheduler.getJobList,
       "mapParamsConf" -> Information.getParameterMap,
       "mapClients" -> KaliyaServerListener.kaliyaServer.getWorkerServer.getClientList,
-      "messagesConsole" -> KaliyaLogger.getMessages)
+      "messagesConsole" -> KaliyaLogger.getMessages
+    )
+    view
+  }
+
+  def job(idJob:String): View = {
+    val view = new View("job.ssp") with Scalate
+    view.addObjects(
+      "job" -> KaliyaServerListener.kaliyaServer.getJobScheduler.getJobMap.get(idJob.toInt)
+    )
     view
   }
 }

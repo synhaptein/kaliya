@@ -3,9 +3,7 @@ package com.synhaptein.kaliya.core.job;
 import com.synhaptein.kaliya.core.KaliyaLogger;
 import com.synhaptein.kaliya.core.worker.WorkerServer;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -61,6 +59,10 @@ public class JobScheduler extends Thread {
                 m_runningJob.runJob(m_server);
                 m_jobListDone.add(m_runningJob);
                 m_runningJob.setStatus(Job.JobStatus.FINISHED);
+                try {
+                    KaliyaLogger.log(m_runningJob.resultsToString());
+                }
+                catch (Exception e) {}
                 KaliyaLogger.log("Job " + m_runningJob.getJobId() + " is finished.");
                 m_runningJob = null;
             }
@@ -73,7 +75,7 @@ public class JobScheduler extends Thread {
      * Return the list of all the jobs, waiting, running and finished/failed
      * @return a list of job
      */
-    public List<Job> getJobList() {
+    public synchronized List<Job> getJobList() {
         List<Job> jobList = new LinkedList<Job>();
         if(m_runningJob != null){
         	jobList.add(m_runningJob);
@@ -82,6 +84,21 @@ public class JobScheduler extends Thread {
         jobList.addAll(m_jobListDone);
         
         return jobList;
+    }
+
+    public synchronized Map<Integer, Job> getJobMap() {
+        Map<Integer, Job> mapJob = new HashMap<Integer, Job>();
+        if(m_runningJob != null){
+        	mapJob.put(m_runningJob.getJobId(), m_runningJob);
+        }
+        for(Job job : m_jobList) {
+            mapJob.put(job.getJobId(), job);
+        }
+        for(Job job : m_jobListDone) {
+            mapJob.put(job.getJobId(), job);
+        }
+
+        return mapJob;
     }
 
     public void stopJobScheduler() {

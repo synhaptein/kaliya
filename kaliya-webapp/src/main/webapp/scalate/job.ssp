@@ -1,0 +1,47 @@
+<%@ val job: com.synhaptein.kaliya.core.job.Job[_,_,_] %>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../resources/css/joblist.css">
+<title>Kaliya Job ${job.getJobId}</title>
+</head>
+<body>
+<div id="header">
+<h1>Job ${job.getJobId}</h1>
+</div>
+<div id="main">
+<h2>Informations</h2>
+<table>
+    <thead>
+        <tr>
+            <th scope="col">Property</th>
+            <th scope="col">Value</th>
+        </tr>
+    </thead>
+    <tr class="odd">
+        <td>Job id</td>
+        <td>${job.getJobId}</a></td>
+    </tr>
+    <tr class="even">
+        <td>Status</td>
+        <td>${job.getStatus}</a></td>
+    </tr>
+    <tr class="odd">
+        <td>Title</td>
+        <td>${job.toString}</a></td>
+    </tr>
+    <tr class="even">
+        <td>Results</td>
+        <% escapeMarkup = false %>
+        <td>${job.resultsToString}</a></td>
+        <% escapeMarkup = true %>
+    </tr>
+    <tfoot>
+        <tr>
+            <th scope="row"></th>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+</div>
+</body>
+</html>

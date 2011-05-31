@@ -19,7 +19,25 @@ import java.util.List;
  * @license       http://www.synhaptein.com/kaliya/license.html
  */
 
-public class ReverseIndexer extends Job<String, String, String> {
+public class ReverseIndexer extends Job<String, String, List<String>> {
+
+    @Override
+    public String resultsToString() {
+        String result = "";
+        if(getStatus() == JobStatus.FINISHED) {
+            for(Pair<String, List<String>> pair : m_results) {
+                result += pair.key + ": ";
+                for(Iterator<String> it = pair.value.iterator(); it.hasNext();) {
+                    result += " " + it.next();
+                    if(it.hasNext()) {
+                        result += ",";
+                    }
+                }
+                result += "<br/>";
+            }
+        }
+        return result;
+    }
 
     @Override
     public String toString() {
@@ -32,7 +50,7 @@ public class ReverseIndexer extends Job<String, String, String> {
     }
 
     @Override
-    public void initMapReducer(MapReducer<String, String, String> p_mapReducer) {
+    public void initMapReducer(MapReducer<String, String, List<String>> p_mapReducer) {
         //p_mapReducer.setMapOnly();
         //p_mapReducer.setStopOnFirstMap();
     }

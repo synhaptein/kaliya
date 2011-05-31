@@ -5,7 +5,7 @@
 <% var idx = 0 %>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="resources/css/joblist.css">
+<link rel="stylesheet" type="text/css" href="../resources/css/joblist.css">
 <title>Kaliya Administration Console</title>
 </head>
 <body>
@@ -34,9 +34,9 @@
     #end
     #foreach(job <- lstJobs)
          <tr class=#if( idx%2 == 0 )"odd"#else"even"#end>
-            <td>${job.getJobId()}</td>
-            <td>${job.toString()}</td>
-            <td>${job.getStatus()}</td>
+            <td>${job.getJobId}</td>
+            <td><a href="console/job/${job.getJobId}">${job.toString}</a></td>
+            <td>${job.getStatus}</td>
             <td></td>
         </tr>
         ${idx = idx+1}
@@ -44,7 +44,7 @@
     <tfoot>
         <tr>
             <th scope="row">Total</th>
-            <td>${lstJobs.size()}</td>
+            <td>${lstJobs.size}</td>
         </tr>
     </tfoot>
 </table>
@@ -57,13 +57,13 @@
         </tr>
     </thead>
     <% idx = 0 %>
-    #if(mapParamsConf.size() == 0)
+    #if(mapParamsConf.size == 0)
         <tr class="odd">
             <td>---</td>
             <td>---</td>
         </tr>
     #end
-    #foreach(param <- mapParamsConf.keySet())
+    #foreach(param <- mapParamsConf.keySet)
          <tr class=#if( idx%2 == 0 )"odd"#else"even"#end>
             <td>${param}</td>
             <td>${mapParamsConf.get(param)}</td>
@@ -99,23 +99,23 @@ Reverse Indexer
         </tr>
     </thead>
     <% idx = 0 %>
-    #if(mapClients.size() == 0)
+    #if(mapClients.size == 0)
         <tr class="odd">
             <td>---</td>
             <td>---</td>
         </tr>
     #end
-    #foreach(client <- mapClients.values())
-         <tr class=#if( idx%2 == 0 )"odd"#else"even"#end>
-            <td>${client.getIdClient()}</td>
-            <td>${client.getIp()}</td>
+    #foreach(client <- mapClients.values)
+         <tr class=#if( idx % 2 == 0 )"odd"#else"even"#end>
+            <td>${client.getIdClient}</td>
+            <td>${client.getIp}</td>
         </tr>
         ${idx = idx+1}
     #end
     <tfoot>
         <tr>
             <th scope="row">Total</th>
-            <td>${mapClients.size()}</td>
+            <td>${mapClients.size}</td>
         </tr>
     </tfoot>
 </table>

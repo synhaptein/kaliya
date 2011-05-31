@@ -5,6 +5,7 @@ import com.synhaptein.kaliya.core.KaliyaLogger;
 import com.synhaptein.kaliya.core.job.JobScheduler;
 import com.synhaptein.kaliya.core.worker.WorkerServer;
 import com.synhaptein.kaliya.modules.md5cracker.Md5Cracker;
+import com.synhaptein.kaliya.modules.reverseIndexer.ReverseIndexer;
 
 /**
  * Get an instance of the Kaliya server.
@@ -31,7 +32,7 @@ public class KaliyaServer {
         //new ClientKeepAlive(this.m_workerServer);
 
         // Start the main project
-        //m_jobScheduler.addJob(new ReverseIndexer());
+        m_jobScheduler.addJob(new ReverseIndexer());
         /*
         m_jobScheduler.addJob(new ReverseIndexer());
         m_jobScheduler.addJob(new ReverseIndexer());
