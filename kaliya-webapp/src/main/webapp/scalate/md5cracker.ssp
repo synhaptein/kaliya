@@ -1,0 +1,36 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../resources/css/joblist.css">
+<script type='text/javascript' src="../../resources/js/md5cracker.js"></script>
+<script type='text/javascript' src="../../resources/js/jquery.js"></script>
+<script type='text/javascript'>
+$(document).ready(function(){
+    $("#hashIt").click(function() {
+        $("#md5hash").val(md5($("#plainstring").val()));
+    });
+});
+</script>
+<title>Kaliya md5cracker</title>
+</head>
+<body>
+<div id="header">
+<h1>Add md5cracker Job</h1>
+</div>
+<div id="main">
+<form name="addmd5cracker" action="/md5cracker" method="post">
+<table style="width:400px">
+    <tr class="odd">
+        <td>plain string: </td>
+        <td><input id="plainstring" name="plainstring" style="width:220px;" /></td>
+        <td><input id="hashIt" type="button" value="Hash it!" /></td>
+    </tr>
+    <tr class="even">
+        <td>md5 hash: </td>
+        <td><input id="md5hash" name="md5hash" style="width:220px;" maxlength="32" /></td>
+        <td><input type="submit" value="Save job"/></td>
+    </tr>
+</table>
+</form>
+</div>
+</body>
+</html>

@@ -4,6 +4,7 @@ import com.synhaptein.scalator.controllers.Controller
 import com.synhaptein.kaliya.listener.KaliyaServerListener
 import com.synhaptein.kaliya.core.{KaliyaLogger, Information}
 import com.synhaptein.scalator.views.{View, Scalate}
+import util.matching.Regex.Match
 
 /**
  * Render management console
@@ -34,5 +35,13 @@ class Console extends Controller {
       "job" -> KaliyaServerListener.kaliyaServer.getJobScheduler.getJobMap.get(idJob.toInt)
     )
     view
+  }
+
+  def addJob(): View = {
+    val jobtype = context.parameter("jobtype", "")
+    jobtype match {
+      case "md5cracker" => new View("md5cracker.ssp") with Scalate
+      case "reverseIndexer" => new View("reverseIndexer.ssp") with Scalate
+    }
   }
 }

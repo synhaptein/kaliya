@@ -35,7 +35,7 @@ table {
 	color: #033; 
 }
 td, th { 
-	padding: 3px 3px .75em 3px; 
+	padding: 3px 3px 3px 3px;
 	line-height: 1.3em; 
 }
 th { 
@@ -44,7 +44,7 @@ th {
 	font-weight: bold; 
 	text-align: left; 
 	padding-right: .5em; 
-	vertical-align: top; 
+	vertical-align: middle;
 }
 thead th { 
 	background: #0B3861; 

@@ -30,18 +30,6 @@ public class KaliyaServer {
         KaliyaLogger.init(m_workerServer);
         m_jobScheduler = new JobScheduler(m_workerServer);
         //new ClientKeepAlive(this.m_workerServer);
-
-        // Start the main project
-        m_jobScheduler.addJob(new ReverseIndexer());
-        /*
-        m_jobScheduler.addJob(new ReverseIndexer());
-        m_jobScheduler.addJob(new ReverseIndexer());
-        m_jobScheduler.addJob(new ReverseIndexer());
-        m_jobScheduler.addJob(new ReverseIndexer());
-        m_jobScheduler.addJob(new ReverseIndexer());*/
-        m_jobScheduler.addJob(new Md5Cracker("54a8723466e5d487247f3d93d51c66bc"));
-        /*m_jobScheduler.addJob(new Md5Cracker("5bdc53d8f514f4beedb00d3536d86ac2"));
-        m_jobScheduler.addJob(new Md5Cracker("73ae356a65a0fc82b3bcf8504ce7b18b"));*/
     }
 
     public JobScheduler getJobScheduler() {

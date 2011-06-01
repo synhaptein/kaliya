@@ -14,40 +14,50 @@
 </div>
 <div id="main">
 <h2>Job list</h2>
-<table>
-    <thead>
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Job</th>
-            <th scope="col">Status</th>
-            <th scope="col">Action</th>
-        </tr>
-    </thead>
-    <% idx = 0 %>
-    #if(lstJobs.size() == 0)
-        <tr class="odd">
-            <td>---</td>
-            <td>---</td>
-            <td>---</td>
-            <td>---</td>
-        </tr>
-    #end
-    #foreach(job <- lstJobs)
-         <tr class=#if( idx%2 == 0 )"odd"#else"even"#end>
-            <td>${job.getJobId}</td>
-            <td><a href="console/job/${job.getJobId}">${job.toString}</a></td>
-            <td>${job.getStatus}</td>
-            <td></td>
-        </tr>
-        ${idx = idx+1}
-    #end
-    <tfoot>
-        <tr>
-            <th scope="row">Total</th>
-            <td>${lstJobs.size}</td>
-        </tr>
-    </tfoot>
-</table>
+<form name="addJob" action="/console/addJob" method="post">
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Job</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <% idx = 0 %>
+        #if(lstJobs.size() == 0)
+            <tr class="odd">
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+            </tr>
+        #end
+        #foreach(job <- lstJobs)
+             <tr class=#if( idx%2 == 0 )"odd"#else"even"#end>
+                <td>${job.getJobId}</td>
+                <td><a href="console/job/${job.getJobId}">${job.toString}</a></td>
+                <td>${job.getStatus}</td>
+                <td></td>
+            </tr>
+            ${idx = idx+1}
+        #end
+        <tfoot>
+            <tr>
+                <th scope="row">Total</th>
+                <th>${lstJobs.size}</th>
+                <th/>
+                <th>
+                    <select name="jobtype">
+                        <option value="md5cracker">md5cracker</option>
+                        <!--option value="reverseIndexer">reverseIndexer</option-->
+                    </select>
+                    <input type="submit" value="Add" />
+                 </th>
+            </tr>
+        </tfoot>
+    </table>
+</form>
 <h2>System informations</h2>
 <table>
     <thead>
