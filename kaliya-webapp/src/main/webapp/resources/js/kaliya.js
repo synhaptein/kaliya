@@ -15,6 +15,12 @@ function addtxt(input) {
     var obj=document.getElementById("console");
     var txt=document.createTextNode("> " + input + "\n");
     obj.appendChild(txt);
+    $(document).ready(function() {
+        var psconsole = $('#console');
+        psconsole.scrollTop(
+            psconsole[0].scrollHeight - psconsole.height()
+        );
+    });
 }
 
 window.onload = function() {
@@ -28,6 +34,9 @@ window.onload = function() {
        });
        socket.connect(host, port);
     });
+    for(var i = 0; i < 100; ++i) {
+        addtxt(i);
+    }
 }
 
 function connectHandler() {
