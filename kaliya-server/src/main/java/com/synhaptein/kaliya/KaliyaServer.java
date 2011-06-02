@@ -4,8 +4,6 @@ import com.synhaptein.kaliya.core.Information;
 import com.synhaptein.kaliya.core.KaliyaLogger;
 import com.synhaptein.kaliya.core.job.JobScheduler;
 import com.synhaptein.kaliya.core.worker.WorkerServer;
-import com.synhaptein.kaliya.modules.md5cracker.Md5Cracker;
-import com.synhaptein.kaliya.modules.reverseIndexer.ReverseIndexer;
 
 /**
  * Get an instance of the Kaliya server.

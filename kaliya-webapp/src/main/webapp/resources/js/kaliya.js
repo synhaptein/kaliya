@@ -1,5 +1,3 @@
-var host = '127.0.0.1';
-var port = 1222;
 var socket;
 
 function addtxt(input) {

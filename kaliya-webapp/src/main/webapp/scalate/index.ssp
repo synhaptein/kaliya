@@ -1,9 +1,15 @@
+<%@ val serverHost: String %>
+<%@ val serverPort: String %>
 <html>
 	<head>
 		<script type="text/javascript" src="resources/js/jquery.js"></script>
 		<script type="text/javascript" src="resources/js/toolbox.flashembed.min.js"></script>
 		<script type="text/javascript" src="resources/js/jSocket.js"></script>
 		<script type="text/javascript" src="resources/js/kaliya.js"></script>
+		<script type="text/javascript">
+		    var host = '${serverHost}';
+            var port = ${serverPort};
+		</script>
 		<title>Kaliya Worker Console</title>
 	</head>
 	<body>

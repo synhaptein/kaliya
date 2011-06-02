@@ -4,8 +4,6 @@ import com.synhaptein.scalator.controllers.Controller
 import com.synhaptein.kaliya.listener.KaliyaServerListener
 import com.synhaptein.kaliya.core.{KaliyaLogger, Information}
 import com.synhaptein.scalator.views.{View, Scalate}
-import util.matching.Regex.Match
-
 /**
  * Render management console
  *

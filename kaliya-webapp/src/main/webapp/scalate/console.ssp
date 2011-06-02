@@ -5,7 +5,7 @@
 <% var idx = 0 %>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="../resources/css/joblist.css">
+<link rel="stylesheet" type="text/css" href="resources/css/joblist.css">
 <title>Kaliya Administration Console</title>
 </head>
 <body>
@@ -14,7 +14,7 @@
 </div>
 <div id="main">
 <h2>Job list</h2>
-<form name="addJob" action="/console/addJob" method="post">
+<form name="addJob" action="console/addJob" method="post">
     <table>
         <thead>
             <tr>

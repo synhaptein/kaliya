@@ -28,7 +28,7 @@ public class Information {
     private static String m_crossDomain = null;
 
     public static void initParameter(String p_confPath) {
-        m_parameters.put("frameworkVersion", "Kaliya 1.0-SNAPSHOT");
+        m_parameters.put("frameworkVersion", "Kaliya 0.1");
         readXMLConf(p_confPath);
     }
 

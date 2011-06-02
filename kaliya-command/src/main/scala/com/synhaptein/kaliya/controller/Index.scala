@@ -2,6 +2,7 @@ package com.synhaptein.kaliya.controller
 
 import com.synhaptein.scalator.views.{View, Scalate}
 import com.synhaptein.scalator.controllers.Controller
+import com.synhaptein.kaliya.core.Information
 
 /**
  * Render the client view
@@ -17,6 +18,11 @@ import com.synhaptein.scalator.controllers.Controller
 class Index extends Controller
 {
   override def index() = {
-    new View("index.ssp") with Scalate
+    val view = new View("index.ssp") with Scalate
+    view.addObjects(
+      "serverHost" -> context.request.getServerName,
+      "serverPort" -> Information.getParameterMap.get("workerPort")
+    )
+    view
   }
 }
