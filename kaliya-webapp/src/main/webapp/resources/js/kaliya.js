@@ -34,9 +34,6 @@ window.onload = function() {
        });
        socket.connect(host, port);
     });
-    for(var i = 0; i < 100; ++i) {
-        addtxt(i);
-    }
 }
 
 function connectHandler() {
