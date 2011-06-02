@@ -50,7 +50,7 @@
                 <th>
                     <select name="jobtype">
                         <option value="md5cracker">md5cracker</option>
-                        <!--option value="reverseIndexer">reverseIndexer</option-->
+                        <option value="reverseIndexer">reverseIndexer</option>
                     </select>
                     <input type="submit" value="Add" />
                  </th>

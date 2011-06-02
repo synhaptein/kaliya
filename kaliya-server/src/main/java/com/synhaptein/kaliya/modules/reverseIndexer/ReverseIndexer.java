@@ -20,6 +20,11 @@ import java.util.List;
  */
 
 public class ReverseIndexer extends Job<String, String, List<String>> {
+    private List<Pair<String, String>> m_problem;
+
+    public ReverseIndexer(List<Pair<String, String>> p_problem) {
+        m_problem = p_problem;
+    }
 
     @Override
     public String resultsToString() {
@@ -57,37 +62,6 @@ public class ReverseIndexer extends Job<String, String, List<String>> {
 
     @Override
     public Iterator<Pair<String, String>> getIterator() {
-        List<Pair<String, String>> texts = new ArrayList<Pair<String, String>>();
-        Pair<String, String> pair = new Pair<String, String>();
-        pair.key = "fichier1";
-        pair.value = "The quick brown fox jumped over the lazy grey dogs.";
-        texts.add(pair);
-
-        pair = new Pair<String, String>();
-        pair.key = "fichier2";
-        pair.value = "That's one small step for a man, one giant leap for mankind.";
-        texts.add(pair);
-
-        pair = new Pair<String, String>();
-        pair.key = "fichier3";
-        pair.value = "The quick brown fox jumped over the lazy grey dogs.";
-        texts.add(pair);
-
-        pair = new Pair<String, String>();
-        pair.key = "fichier4";
-        pair.value = "Mary had a little lamb, Its fleece was white as snow; And everywhere that Mary went, The lamb was sure to go.";
-        texts.add(pair);
-
-        pair = new Pair<String, String>();
-        pair.key = "fichier5";
-        pair.value = "That's one small step for a man, one giant leap for mankind.";
-        texts.add(pair);
-
-        pair = new Pair<String, String>();
-        pair.key = "fichier6";
-        pair.value = "Mary had a little lamb, Its fleece was white as snow; And everywhere that Mary went, The lamb was sure to go.";
-        texts.add(pair);
-
-        return texts.iterator();
+        return m_problem.iterator();
     }
 }
