@@ -1,3 +1,16 @@
+/**
+ * This is only for the md5cracker part that implement the mapreduce algorithm to bruteforce a md5 hash.
+ *
+ * The md5 Implementation comes from http://www.myersdaily.org/joseph/javascript/md5-text.html
+ *
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright 2010-2011, SynHaptein (http://www.synhaptein.com)
+ * @link          http://www.synhaptein.com/kaliya kaliya project
+ * @since         kaliya 0.1
+ * @license       http://www.synhaptein.com/kaliya/license.html
+ */
+
 function md5cracker() {}
 
 md5cracker.FIRST = 48; // ascii '0'

@@ -1,3 +1,12 @@
+/* NAME
+ *    JSocket - Socket on Javascript
+ * AUTHOR
+ *    Masahiro Chiba<nihen@megabbs.com>
+ * MODIFIED BY
+ *    Philippe L'Heureux<philippe.lheureux@umontreal.ca>
+ *
+ */
+
 package {
     import flash.display.Sprite;
     import flash.events.*;

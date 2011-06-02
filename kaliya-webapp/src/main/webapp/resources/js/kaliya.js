@@ -1,3 +1,14 @@
+/**
+ * This is the core of the worker part. It receive task from the server and return the result back to it.
+ *
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright 2010-2011, SynHaptein (http://www.synhaptein.com)
+ * @link          http://www.synhaptein.com/kaliya kaliya project
+ * @since         kaliya 0.1
+ * @license       http://www.synhaptein.com/kaliya/license.html
+ */
+
 var socket;
 
 function addtxt(input) {
