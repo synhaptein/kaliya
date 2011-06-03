@@ -2,6 +2,7 @@
 <%@ val serverPort: String %>
 <html>
 	<head>
+        <script type="text/javascript" src="resources/js/json2.min.js"></script>
 		<script type="text/javascript" src="resources/js/jquery.js"></script>
 		<script type="text/javascript" src="resources/js/toolbox.flashembed.min.js"></script>
 		<script type="text/javascript" src="resources/js/jSocket.js"></script>

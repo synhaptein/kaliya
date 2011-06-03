@@ -55,7 +55,7 @@ function dataHandler(data) {
             else {
                 response.pair = job.reduce(request.key, request.value);
             }
-            socket.writeFlush(JSON.stringify(response)+"\0");
+            socket.writeFlush(JSON.stringify(response));
         });
     }
     catch(e) {

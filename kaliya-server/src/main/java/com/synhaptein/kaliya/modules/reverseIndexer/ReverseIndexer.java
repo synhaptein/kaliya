@@ -4,7 +4,6 @@ import com.synhaptein.kaliya.core.job.Job;
 import com.synhaptein.kaliya.core.mapreduce.MapReducer;
 import com.synhaptein.kaliya.core.mapreduce.Pair;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 

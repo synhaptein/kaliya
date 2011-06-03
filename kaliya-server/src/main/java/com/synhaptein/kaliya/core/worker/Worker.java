@@ -5,6 +5,7 @@ import com.synhaptein.kaliya.core.KaliyaLogger;
 import com.synhaptein.kaliya.core.Message;
 import com.synhaptein.kaliya.core.mapreduce.Task;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
@@ -55,21 +56,13 @@ public class Worker extends Client<WorkerServer> {
     public void runClient() throws InterruptedException {
         try {
             String sReceived = "";
-            char[] tab = new char[1];
-            while (m_readerIn.read(tab, 0, 1) != -1) {
-                sReceived += tab[0];
-                if (tab[0] == '\0' && sReceived.length() > 1) {
-                    m_communicationBuffer.put(new Message(this, sReceived));
-                    sReceived = "";
-                } else if (tab[0] == '\0') {
-                    sReceived = "";
-                }
+            while(true) {
+                sReceived = new DataInputStream(m_socket.getInputStream()).readUTF();
+                m_communicationBuffer.put(new Message(this, sReceived));
             }
         }
         catch (SocketException e) {}
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        catch (IOException e) {}
         finally {
             m_server.removeClient(this);
         }

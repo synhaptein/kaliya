@@ -59,14 +59,14 @@ package {
             setTimeout(doWrite, 1, socid, data);
         }
         private static function doWrite(socid:int, data:String):void {
-            sockets[socid].writeUTFBytes(data);
+            sockets[socid].writeUTF(data);
         }
 
         public static function writeFlush(socid:int, data:String):void {
             setTimeout(doWriteFlush, 1, socid, data);
         }
         private static function doWriteFlush(socid:int, data:String):void {
-            sockets[socid].writeUTFBytes(data);
+            sockets[socid].writeUTF(data);
             sockets[socid].flush();
         }
 
