@@ -17,14 +17,19 @@ import com.synhaptein.kaliya.core.mapreduce.{Pair, Task}
  * @license       http://www.synhaptein.com/kaliya/license.html
  */
 
-class Reverse extends Controller {
+class Reverseindexer extends Controller {
   override def index() = {
     val strlstfiles = context.parameter("lstfiles", "")
-    println(strlstfiles)
-    val lstFiles:java.util.List[Pair[String, String]] =
-      Task.mapper.readValue(strlstfiles, new TypeReference[java.util.List[Pair[String, String]]] {})
-    KaliyaServerListener.kaliyaServer.getJobScheduler.addJob(
-      new com.synhaptein.kaliya.modules.reverseIndexer.ReverseIndexer(lstFiles))
-    new View("/console") with Redirection
+    try {
+      val lstFiles:java.util.List[Pair[String, String]] =
+        Task.mapper.readValue(strlstfiles, new TypeReference[java.util.List[Pair[String, String]]] {})
+      if(lstFiles.size() == 0) throw new Exception
+      KaliyaServerListener.kaliyaServer.getJobScheduler.addJob(
+        new com.synhaptein.kaliya.modules.reverseIndexer.ReverseIndexer(lstFiles))
+      new View("/console") with Redirection
+    }
+    catch {
+      case _ => new View("/console/addJob?jobtype=reverseIndexer") with Redirection
+    }
   }
 }

@@ -3,7 +3,8 @@ package com.synhaptein.kaliya.controller
 import com.synhaptein.scalator.controllers.Controller
 import com.synhaptein.kaliya.listener.KaliyaServerListener
 import com.synhaptein.kaliya.core.{KaliyaLogger, Information}
-import com.synhaptein.scalator.views.{View, Scalate}
+import com.synhaptein.scalator.views.{Error, View, Scalate}
+
 /**
  * Render management console
  *
@@ -28,11 +29,25 @@ class Console extends Controller {
   }
 
   def job(idJob:String): View = {
-    val view = new View("job.ssp") with Scalate
-    view.addObjects(
-      "job" -> KaliyaServerListener.kaliyaServer.getJobScheduler.getJobMap.get(idJob.toInt)
-    )
-    view
+    def parseInt(i: String): Option[Int] = try {
+      Some(i.toInt)
+    }
+    catch {
+      case _ : java.lang.NumberFormatException => None
+    }
+
+    parseInt(idJob) match {
+      case Some(id) =>
+         val job = KaliyaServerListener.kaliyaServer.getJobScheduler.getJobMap.get(id)
+         if(job != null) {
+           val view = new View("job.ssp") with Scalate
+           view.addObjects("job" -> job)
+           return view
+         }
+      case _ =>
+    }
+
+    new View("404") with Error
   }
 
   def addJob(): View = {
@@ -40,6 +55,7 @@ class Console extends Controller {
     jobtype match {
       case "md5cracker" => new View("md5cracker.ssp") with Scalate
       case "reverseIndexer" => new View("reverseIndexer.ssp") with Scalate
+      case _ => new View("404") with Error
     }
   }
 }

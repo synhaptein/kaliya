@@ -2,7 +2,8 @@ package com.synhaptein.kaliya.controller
 
 import com.synhaptein.scalator.controllers.Controller
 import com.synhaptein.kaliya.listener.KaliyaServerListener
-import com.synhaptein.scalator.views.{Redirection, View}
+import java.util.regex.Pattern
+import com.synhaptein.scalator.views.{Scalate, Redirection, View}
 
 /**
  * Controller that add a new md5cracker job.
@@ -18,8 +19,13 @@ import com.synhaptein.scalator.views.{Redirection, View}
 class Md5cracker extends Controller {
   override def index() = {
     val md5hash = context.parameter("md5hash", "")
-    KaliyaServerListener.kaliyaServer.getJobScheduler.addJob(
-      new com.synhaptein.kaliya.modules.md5cracker.Md5Cracker(md5hash))
-    new View("/console") with Redirection
+    if(Pattern.compile("[a-fA-F\\d]{32}").matcher(md5hash).find) {
+      KaliyaServerListener.kaliyaServer.getJobScheduler.addJob(
+        new com.synhaptein.kaliya.modules.md5cracker.Md5Cracker(md5hash))
+      new View("/console") with Redirection
+    }
+    else {
+      new View("/console/addJob?jobtype=md5cracker") with Redirection
+    }
   }
 }

@@ -31,7 +31,7 @@ $(document).ready(function() {
 <tbody>
 </tbody>
 </table>
-<form id="addreverseindexer" name="addreverseindexer" action="../reverse" method="post">
+<form id="addreverseindexer" name="addreverseindexer" action="../reverseindexer" method="post">
 <input type="hidden" name="lstfiles" id="lstfileshidden"/>
 <table style="width:600px">
     <tr class="odd">
