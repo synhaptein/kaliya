@@ -36,5 +36,24 @@
     
   <build>
     <finalName>kaliya</finalName>
+    <plugins>
+        <plugin>
+          <groupId>org.fusesource.scalate</groupId>
+          <artifactId>maven-scalate-plugin</artifactId>
+          <version>1.4.1</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>precompile</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
   </build>
+
 </project>

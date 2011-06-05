@@ -3,7 +3,7 @@ package com.synhaptein.kaliya.controller
 import com.synhaptein.scalator.controllers.Controller
 import com.synhaptein.kaliya.listener.KaliyaServerListener
 import java.util.regex.Pattern
-import com.synhaptein.scalator.views.{Scalate, Redirection, View}
+import com.synhaptein.scalator.views.{Redirection, View}
 
 /**
  * Controller that add a new md5cracker job.
