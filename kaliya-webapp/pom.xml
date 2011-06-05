@@ -55,11 +55,4 @@
         </plugin>
     </plugins>
   </build>
-
-  <scm>
-    <connection>scm:git:ssh://git@github.com/synhaptein/kaliya.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/synhaptein/kaliya.git</developerConnection>
-    <url>http://github.com/synhaptein/kaliya.git</url>
-  </scm>
-
 </project>
